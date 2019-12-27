@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-CN" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AutoGenome介绍 &mdash; autogenome 1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="快速开始" href="快速开始.html" />
+    <link rel="prev" title="Welcome to autogenome’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> autogenome
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AutoGenome介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">主要特性</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="快速开始.html">快速开始</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Config文件配置详解.html">Config文件配置详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLP案例.html">MLP案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ResNet案例.html">ResNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DenseNet案例.html">DenseNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ENAS案例.html">ENAS案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Res-VAE案例.html">Res-VAE案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="常见问题.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="附录.html">附录</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">autogenome</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>AutoGenome介绍</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_files/AutoGenome介绍.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="autogenome">
+<h1>AutoGenome介绍<a class="headerlink" href="#autogenome" title="永久链接至标题">¶</a></h1>
+<p>AutoGenome是一个利用AutoML等技术帮助科研工作者在基因组学数据上端到端实现深度学习网络搜索，训练，评估，预测和解释的工具包。</p>
+<div class="section" id="id1">
+<h2>背景<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>深度学习在计算机视觉（CV），自然语言处理（NLP）和语音处理等传统领域中取得了巨大的成功。这些成就极大地鼓舞了基因组的研究人员，尝试使用深度学习技术来解决基因组学的研究问题越来越受欢迎。</p>
+<p>但是，基因组学的数据是比较特殊的，跟图像和文本等数据有着明显不同。基因组学数据包括RNA表达值，基因突变状态或来自全基因组的基因拷贝数变异等。传统流行的CNN或RNN网络在此数据的应用是无效的，因为数据中没有空间或时间关系。基因组学数据有其特殊性。几个基因之间可能存在彼此的相互作用，包括激活和抑制，并能组成结构化的层次网络来实现调节生物学的功能。由于基因特征很多，基因之间的关系变得尤为复杂，针对一个研究问题，基因的更多地是非线性，存在交互的作用；并且是一个高纬度的复杂数据问题。而深度学习神经网络对于特征的抽象，以及非线性作用和高维数据的处理，存在一定的优势。</p>
+<p>在基因组学研究中，大多数研究者都出自生物学背景，所应用的神经网络结构常常局限于手工设计。在AutoML使用越来越紧密的今天，研究领域同样也驱动着面向医疗基因组学领域的AutoML系统，而AutoGenome正是在这个背景下诞生的。</p>
+</div>
+<div class="section" id="id2">
+<h2>主要特性<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>针对基因组学的数据，MLP（Multilayer Perceptron）结构引起简单灵活的特点常常被使用。AutoGenome有MLP网络结构的搜索策略，通过设定网络层数以及隐藏层神经元个数的搜索空间，通过MoXing的超参搜索方法，根据候选网络结构的表现选出最优的网络结构。</li>
+<li>受ResNet和DenseNet的启发，AutoGenome将跳跃连接引入到基因组学数据中。根据AutoML中CASH的想法（Combined Algorithm Selection and Hyperparameter optimization）把模型选择和超参调优合并为同一个问题，把ResNet和Densenet网络的网络结构通过超参搜索的方式来进行选择，从而可以针对不同的数据选出较优的网络结构。</li>
+<li>MLP、ResNet和DenseNet都是基于网络结构的一定先验知识，并且搜索空间仅限于超参搜索中Grid Search的方式；为了使得搜索空间具有更强的灵活性，AutoGenome引入了ENAS（Efficient Neural Architecture Search）。ENAS是NAS的一种，因其创新地把网络结构的参数进行了共享使得，神经网络结构搜索的效率大大得到提升，克服了NAS算力成本巨大而耗时的缺陷。NAS通过强化学习的策略，通过优化策略优化产生子模型结构的控制器模型-LSTM。LSTM模型能够根据预先设定的子模型的网络层数，生成子模型的每一层的大小，以及其中的跳跃了解情况。传统的ENAS结构采用的候选算子常常包括各种卷积等操作，AutoGenome将算子简化为全连接操作，使其能适用于基因组学的数据。</li>
+<li>MLP，ResNet， DenseNet 和 ENAS  都是属于监督学习的领域，并且能应用于回归和分类的问题。但除此之外，在生物基因领域，由于数据的维度高，降维等非监督学习也经常被使用。因此AutoGenome在传统VAE的基础上，通过添加跳跃连接，实现了残差全连接VAE网络（residual fully-connected variational auto-encoder， Res-VAE）。在传统的VAE体系中, 编码器通过减少后面每层网络神经元的数量将输入压缩为较小维度的隐变量，解码器从隐变量出发通过增加每层神经元数量的方式重建输入数据。 Res-VAE在编码器和解码器上都添加了跳跃连接，使得网络结构更加多变和灵活。通过最小化重建误差和Kullback-Leibler散度（KLD）误差的总和，Res-VAE从原始数据中学习数据的本质特征，而这些特征存储在隐变量里面，从而实现了降维的目的，也可以用于后续进一步分析。</li>
+<li>在医疗领域中， 科研工作者已经不仅仅满足于模型的效果， 医疗的特殊性使得人们对模型效果的原因产生了更多的思考。深度神经网络的可解释性使得人工智能应用在严谨的医疗领域受限，结果难以解释也让注重因果推断的科学研究无法迅速把深度神经网络应用起来。因此医疗领域的模型可解释性必不可少。如何洞察神经网络模型的黑匣子？目前很多前沿研究已经开展了很多这方面的工作。SHAP(SHapley Additive exPlanations)采用合作博弈的贡献和收益分配来量化每个特征对模型所作出的贡献。为了方便研究人员研究深度学习模型，我们将SHAP的引入了AutoGenome。给定深度学习模型，SHAP将计算每个特征对整体预测的边际贡献，称为SHAP值54。 AutoGenome可以可视化每个基因对预测类别的特征重要性，或每个基因对预测类别的SHAP值分布。这些结果的可视化为深度学习模型可解释性提供了有意义的见解。</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="快速开始.html" class="btn btn-neutral float-right" title="快速开始" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to autogenome’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Huawei
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

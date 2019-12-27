@@ -1,0 +1,40 @@
+# 快速开始
+
+## 安装
+
+```shell
+# Setup environment using conda, env_gpu.yml for GPU server
+conda env create -f env.yml
+conda activate autogenome
+
+#get and install autogenome package
+wget "http://*****"
+pip install autogenome*.whl
+```
+
+## 使用
+
+```python
+import autogenome as ag
+
+# create automl instance from a default config file
+automl= ag.auto()
+
+# or from a user-defined config file
+automl= ag.auto("config.json")
+
+# train to get the best hyperparameters and a trained model
+automl.train()
+
+# evaluate 
+automl.evaluate()
+
+# predict
+automl.predict()
+
+# interprete
+automl.explain()
+```
+
+## 简单案例
+
