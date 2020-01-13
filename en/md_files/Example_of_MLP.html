@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-CN" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example of MLP &mdash; autogenome 1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Example of ResNet" href="Example_of_ResNet.html" />
+    <link rel="prev" title="Introduction of config.json" href="Instructions_of_Config.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> autogenome
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction_of_AutoGenome.html">AutoGenome-Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quick_start.html">Quick-start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Instructions_of_Config.html">Introduction of config.json</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example of MLP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#config-json-in-use">config.json  in use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-by-step">Step by step</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_ResNet.html">Example of ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_DenseNet.html">Example of DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_ENAS.html">Example of ENAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_Res-VAE.html">Example of  Res-VAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix.html">Appendix</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">autogenome</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Example of MLP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_files/Example_of_MLP.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-of-mlp">
+<h1>Example of MLP<a class="headerlink" href="#example-of-mlp" title="永久链接至标题">¶</a></h1>
+<ul class="simple">
+<li>[config.json in use](##config.json in use)</li>
+<li>[Step by step](##Step by step)</li>
+</ul>
+<p>MLP case uses a binary classification task as an example. The <code class="docutils literal notranslate"><span class="pre">features</span></code> data<code class="docutils literal notranslate"> <span class="pre">little_exp.tsv</span></code> contains 100 samples and 23361 features.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; wc little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span>  <span class="c1"># rows</span>
+<span class="m">100</span>
+&gt; sed -n <span class="s1">&#39;1,1p&#39;</span> little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print NF}&#39;</span>  <span class="c1"># columns</span>
+<span class="m">23361</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">target</span></code> data are of two types, 70 and 30 respectively.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; grep -c <span class="m">0</span> little_learning_target.tsv
+<span class="m">70</span>
+&gt; grep -c <span class="m">1</span> little_learning_target.tsv
+<span class="m">30</span>
+</pre></div>
+</div>
+<p>First, prepare the configuration file, as shown below:</p>
+<div class="section" id="config-json-in-use">
+<h2>config.json  in use<a class="headerlink" href="#config-json-in-use" title="永久链接至标题">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>{
+    &quot;name&quot;: &quot;mlp_demo&quot;,   // Project name
+
+    &quot;model&quot;: {
+        &quot;type&quot;: &quot;MLP&quot;,
+        &quot;args&quot;: {
+            &quot;output_classes&quot;: 2}   // Number of classes
+    },
+
+    &quot;data_train&quot;: {
+        &quot;type&quot;: &quot;DataLoader&quot;,
+        &quot;args&quot;:{
+            &quot;data_dir&quot;: &quot;/data_autogenome/data_test&quot;,   //The folder where the data is located, it is recommended to use an absolute path
+            &quot;features_file&quot;: &quot;little_exp.tsv&quot;,  //File of features
+            &quot;labels_file&quot;: &quot;little_learning_target.tsv&quot;,   //File of target
+            &quot;validation_split&quot;: 0.2,   //Validation set ratio
+            &quot;shuffle&quot;: true,   //Whether to shuffle the data during training
+            &quot;delimiter&quot;: &quot; &quot;   //Delimiter in data, default: &#39;\t&#39;
+        }
+    },
+
+    &quot;data_evaluate&quot;: {
+        &quot;type&quot;: &quot;DataLoader&quot;,
+        &quot;args&quot;: {
+            &quot;data_dir&quot;: &quot;./data_autogenome/data_test&quot;,
+            &quot;features_file&quot;: &quot;little_exp.tsv&quot;,   //用/File for evaluation
+            &quot;labels_file&quot;: &quot;little_learning_target.tsv&quot;,  //target for evaluation
+            &quot;delimiter&quot;: &quot; &quot;
+        }
+    },
+
+    &quot;data_predict&quot;: {
+        &quot;type&quot;: &quot;DataLoader&quot;,
+        &quot;args&quot;: {
+            &quot;data_dir&quot;: &quot;./data_autogenome/data_test&quot;, 
+            &quot;features_file&quot;: &quot;little_exp.tsv&quot;,   //File for prediction
+            &quot;delimiter&quot;: &quot; &quot;
+        }
+    },
+
+    &quot;input_fn&quot;: {
+        &quot;num_threads&quot;: 16   //Number of threads for reading data
+    },
+
+    &quot;trainer&quot;: {
+        &quot;hyper_selector&quot;: true,   //[true/false]，Whether to perform hyperparameter search
+        &quot;batch_size&quot;: 64,   
+        &quot;save_dir&quot;: &quot;./experiments&quot;,   //Folder where logs, model parameters, and results are saved
+        &quot;monitor&quot;: &quot;accuracy&quot;,   //[accuracy/loss/f1_score]，Evaluate metrics on the validation set during training
+        &quot;num_gpus&quot;: 1,   
+        &quot;patience&quot;: 20,   //After the number of consecutive epochs do not improve the performance on the validation set, stop training
+        &quot;pre_train_epoch&quot;: 10,   //The number of epochs trained in each group of parameters in Hyperparameter search phase
+        &quot;max_steps&quot;: 64000,   //Maximum running steps to train. When the patience is large, the max_steps steps will be trained. Max_steps * batch_size / num_samples is the number of epochs corresponding to the training.
+        &quot;loss&quot;: &quot;cross_entropy&quot;,
+        &quot;selected_mode&quot;: &quot;max&quot;   //[max/min]Bigger or smaller is better when evaluation
+    },
+
+    &quot;optimizer&quot;: {
+        &quot;type&quot;: &quot;adam&quot;    //[adam/sgd/adadelta/adagrad/adamw/ftrl/momentum/rmsprop/kfac/dynamic_momentum/lamb]
+    },
+
+    &quot;evaluator&quot;: {
+        &quot;max_number_of_steps&quot;: 1,
+        &quot;batch_size&quot;:100
+
+    },
+
+    &quot;predictor&quot;: {
+        &quot;max_number_of_steps&quot;: 1,
+        &quot;batch_size&quot;:100
+    },
+
+    &quot;explainer&quot;: {
+        &quot;type&quot;: &quot;Shap&quot;,
+        &quot;args&quot;: {
+            &quot;plot_type&quot;: &quot;bar&quot;,  //[bar/dot/violin/layered_violin]
+            &quot;features_name_file&quot;: &quot;/data_autogenome/data_test/names_2.txt&quot;,  //变File of feature name ，one column，rows are equall to the number of features
+            &quot;num_samples&quot;: 80,   //Number of sample used in explainer
+            &quot;ranked_outputs&quot;: 20  //Number of important variables will be ploted
+        }
+    },
+
+    &quot;param_spec&quot;: {   //Initial parameters
+        &quot;type&quot;: &quot;origin_params&quot;,
+        &quot;args&quot;: {
+            &quot;MLP&quot;: {
+                &quot;layers_list&quot;: [64， 128],  
+                &quot;keep_prob&quot;: 1,
+                &quot;output_nonlinear&quot;: &quot;sigmoid&quot;
+            },
+            &quot;optimizer_param&quot;: {
+                &quot;learning_rate&quot;: 0.0001
+            }
+        }
+    },
+
+    &quot;hyper_param_spec&quot;: {  //Hyperparameter search space
+        &quot;type&quot;: &quot;hyper_params&quot;,
+        &quot;args&quot;: {
+            &quot;MLP&quot;: {
+                &quot;size_candidates&quot;: [128, 64],   //Search space for Nodes at each layer
+                &quot;num_layers&quot;: [2, 3],  
+                &quot;keep_prob&quot;: [0.8, 1.0],
+                &quot;output_nonlinear&quot;: [null, &quot;relu&quot;, &quot;tanh&quot;, &quot;sigmoid&quot;]
+            },
+            &quot;optimizer_param&quot;: {
+
+            }
+        }
+}
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-by-step">
+<h2>Step by step<a class="headerlink" href="#step-by-step" title="永久链接至标题">¶</a></h2>
+<p>The use of AutoGenome mainly includes the following steps:</p>
+<ol>
+<li><p class="first">import autogenome</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">autogenome</span> <span class="k">as</span> <span class="nn">ag</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Read the configuration file, as shown above</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span> <span class="o">=</span> <span class="n">ag</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;/data_autogenome/data_test/json_hub_simple/densenet_test.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After the configuration file is successfully read, the following log is printed:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>==========================================================
+----------Use the config from 
+/data_autogenome/data_test/json_hub_simple/mlp_test.json
+----------Initialize data_loader class
+----------Initialize Optimizer
+----------Initialize hyper_param_spec class 
+----------Initialize param_spec class 
+==========================================================
+#################################################################################
+#                                                                               #
+#                                                                               #
+         Ready to search the best hyper parameters for MLP model            
+#                                                                               #
+#                                                                               #
+#################################################################################
+</pre></div>
+</div>
+</li>
+<li><p class="first">Train the model. Model training is performed according to the training parameters in the configuration file, and the data set is divided into training sets: validation set in ratio of 8: 2. the training set data is used for training, and the validation set data is evaluated at the same time. Better models and parameters are saved to the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder in the corresponding folder (trainer.saver:” ./experiments “)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>During training, the model is initialized to the parameters in <code class="docutils literal notranslate"><span class="pre">param_spec</span></code>, and then the parameter search is performed in the hyperparameter search space<code class="docutils literal notranslate"> <span class="pre">hyper_param_spec</span></code>. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyperparameter search final model structure parameters  is sured. The final model will be trained, when the results are better, the model parameters are saved, and it will stop train when the effect on the validation set is not improved after several consecutive epochs (trainer.patience).</p>
+<p>Some logs during training are as follows:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Hyper</span> <span class="o">&amp;</span> <span class="nx">Training</span> <span class="nx">Search</span> <span class="nx">stage</span>
+<span class="p">...</span>
+<span class="nx">Pretraining</span><span class="o">:</span> <span class="nx">search</span> <span class="nx">parameter</span> <span class="nx">is</span> <span class="nx">layers_list</span><span class="p">,</span> <span class="nx">search</span> <span class="nx">value</span> <span class="nx">is</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="nx">LR_RANGE_TEST</span> <span class="nx">From</span> <span class="nx">begin_lr</span> <span class="mf">0.000010</span> <span class="nx">To</span> <span class="nx">end_lr</span> <span class="mf">0.100000</span><span class="p">,</span> 
+<span class="nx">Graph</span> <span class="nx">was</span> <span class="nx">finalized</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Done</span> <span class="nx">running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">will</span> <span class="nx">end</span> <span class="nx">at</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">10</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">218.444</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">0.805</span>	<span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.484</span>
+<span class="p">...</span>
+<span class="nx">The</span> <span class="nx">model</span> <span class="nx">and</span> <span class="nx">events</span> <span class="nx">are</span> <span class="nx">saved</span> <span class="k">in</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span>
+<span class="nx">Graph</span> <span class="nx">was</span> <span class="nx">finalized</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Done</span> <span class="nx">running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">will</span> <span class="nx">end</span> <span class="nx">at</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">64000</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">86.607</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">0.843</span>	<span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.531</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">1</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">147.601</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.266</span>
+<span class="nx">Saving</span> <span class="nx">checkpoints</span> <span class="k">for</span> <span class="mi">2</span> <span class="nx">into</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="p">.</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">3</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">64.228</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.266</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">5</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">67.668</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.328</span>
+<span class="nx">Saving</span> <span class="nx">checkpoints</span> <span class="k">for</span> <span class="mi">6</span> <span class="nx">into</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="p">.</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">7</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">122.216</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.328</span>
+<span class="p">...</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">200</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">200</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4496.934</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">0.000</span>	<span class="nx">accuracy</span><span class="o">:</span> <span class="mf">1.000</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">201</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">0.046</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.953</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">203</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">0.034</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">0.953</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">205</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">0.025</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">1.000</span>
+<span class="nx">Saving</span> <span class="nx">checkpoints</span> <span class="k">for</span> <span class="mi">206</span> <span class="nx">into</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="p">.</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">207</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">0.036</span> <span class="nx">accuracy</span><span class="o">:</span> <span class="mf">1.000</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Evaluation. According to the model structure and model parameters trained in the previous step, evaluate the performance on <code class="docutils literal notranslate"><span class="pre">data_evaluate</span></code>. The classification model will print the accuracy value and the confusion matrix.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Some logs are as follows:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Evaluation</span> <span class="nx">stage</span>
+<span class="nx">Restoring</span> <span class="nx">parameters</span> <span class="nx">from</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="o">-</span><span class="mi">206</span>
+<span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Done</span> <span class="nx">running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">loss</span><span class="o">:</span> <span class="mf">0.005278169643133879</span>	<span class="nx">accuracy</span><span class="o">:</span> <span class="mf">1.0</span>		<span class="p">[</span><span class="mi">1</span> <span class="nx">batches</span><span class="p">]</span>
+<span class="nx">Confusion</span> <span class="nx">matrix</span> <span class="nx">plot</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/MLP_confusion_matrix.pdf&#39;</span>
+</pre></div>
+</div>
+<p>The resulting confusion matrix is shown below. The size of the figure will be adjusted according to the number of categories. The x-axis is true value and the y-axis is the predicted value.</p>
+<p><img alt="../_images/mlp_confusion_matrix.png" src="../_images/mlp_confusion_matrix.png" /></p>
+</li>
+<li><p class="first">Prediction. According to the model structure and model parameters trained in step 3, for a given features data, the classification model predicts its category and the softmax value of each category, and will be saved as csv file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Some logs are as follows:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Prediction</span> <span class="nx">stage</span> 
+<span class="nx">Restoring</span> <span class="nx">parameters</span> <span class="nx">from</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="o">-</span><span class="mi">206</span>
+<span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Done</span> <span class="nx">running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+	<span class="p">[</span><span class="mi">1</span> <span class="nx">batches</span><span class="p">]</span>
+<span class="nx">Predicted</span> <span class="nx">values</span> <span class="nx">file</span> <span class="nx">is</span> <span class="s2">&quot;experiments/output_files/mlp_demo/1225_113835/MLP_predicted_result_data_frame.csv&quot;</span>
+</pre></div>
+</div>
+<p>As shown in the log, the predicted target file will be produced. The first column of the file is <code class="docutils literal notranslate"><span class="pre">predicted_result</span></code>, and the second column of <code class="docutils literal notranslate"><span class="pre">softmax_value</span></code> is the softmax value of each category.</p>
+</li>
+<li><p class="first">Explanation. Sort the importance of the variables according to the model trained in step 3. The file corresponding to the variable name needs to be specified in the <code class="docutils literal notranslate"><span class="pre">explainer</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">explain</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Sort the importance of the model variables, and the log is as follows:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">Initialize</span> <span class="nx">Shap</span> <span class="kr">class</span>
+<span class="nx">Restoring</span> <span class="nx">parameters</span> <span class="nx">from</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="o">-</span><span class="mi">206</span>
+<span class="o">----------</span><span class="nx">Computing</span> <span class="nx">shap_values</span> <span class="kd">with</span> <span class="mi">80</span>  <span class="nx">examples</span> <span class="nx">and</span> <span class="mi">23361</span> <span class="nx">features</span>
+<span class="nx">importance</span> <span class="nx">plot</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/_dot0_feature_importance_summary.pdf&#39;</span>
+<span class="nx">importance</span> <span class="nx">plot</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/_dot1_feature_importance_summary.pdf&#39;</span>
+<span class="nx">features</span> <span class="nx">orders</span> <span class="k">in</span> <span class="nx">all</span> <span class="nx">classes</span> <span class="nx">is</span> <span class="nx">saved</span> <span class="k">in</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/_features_orders.csv&#39;</span>
+<span class="nx">importance</span> <span class="nx">plot</span> <span class="k">for</span> <span class="nx">every</span> <span class="nx">classes</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/class_0feature_importance_summary.pdf&#39;</span>
+<span class="nx">importance</span> <span class="nx">plot</span> <span class="k">for</span> <span class="nx">every</span> <span class="nx">classes</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/class_1feature_importance_summary.pdf&#39;</span>
+<span class="nx">importance</span> <span class="nx">plot</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/_barTotal_feature_importance_summary.pdf&#39;</span>
+<span class="nx">shap_values</span> <span class="nx">every</span> <span class="nx">classes</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/_class_0shap_values.csv&#39;</span>
+<span class="nx">shap_values</span> <span class="nx">every</span> <span class="nx">classes</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/_class_1shap_values.csv&#39;</span>
+</pre></div>
+</div>
+<p>Variable importance bar charts and dot charts and total variable importance charts for each category are produced, as shown below:</p>
+<p>Importance map for all variable：</p>
+<p><img alt="../_images/mlp_total_feature_importance_summary.png" src="../_images/mlp_total_feature_importance_summary.png" /></p>
+<p>Features importance bar plot for class1:</p>
+<p><img alt="../_images/mlp_class1_feature_importance_summary_bar.png" src="../_images/mlp_class1_feature_importance_summary_bar.png" /></p>
+<p>Features importance bar plot for class0:</p>
+<p><img alt="../_images/mlp_class0_feature_importance_summary_bar.png" src="../_images/mlp_class0_feature_importance_summary_bar.png" /></p>
+<p>Features importance dot plot for class1:</p>
+<p><img alt="../_images/mlp_class1_feature_importance_summary_dot.png" src="../_images/mlp_class1_feature_importance_summary_dot.png" /></p>
+<p>Features importance dot plot for class0:
+<img alt="../_images/mlp_class0_feature_importance_summary_dot.png" src="../_images/mlp_class0_feature_importance_summary_dot.png" /></p>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Example_of_ResNet.html" class="btn btn-neutral float-right" title="Example of ResNet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Instructions_of_Config.html" class="btn btn-neutral float-left" title="Introduction of config.json" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Huawei
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

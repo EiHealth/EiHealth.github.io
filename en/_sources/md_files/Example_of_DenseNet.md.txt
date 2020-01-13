@@ -1,0 +1,313 @@
+# Example of DenseNet
+
+- [config.json in use](##config.json in use)
+- [Step by step](##Step by step)
+
+
+
+DenseNet case uses a binary classification task as an example. The `features` data` little_exp.tsv` contains 100 samples and 23361 features.
+
+```bash
+> wc little_exp.tsv | awk '{print $1}'  # rows
+100
+> sed -n '1,1p' little_exp.tsv | awk '{print NF}'  # columns
+23361
+```
+
+`target` data are of two types, 70 and 30 respectively.
+
+```bash
+> grep -c 0 little_learning_target.tsv
+70
+> grep -c 1 little_learning_target.tsv
+30
+```
+
+
+
+First, prepare the configuration file, as shown below:
+
+## config.json  in use
+
+```javascript
+{
+    "name": "densenet_demo",  // Project name
+
+    "model": {
+        "type": "DenseNet",
+        "args": {
+            "output_classes": 2}  // Number of classes
+    },
+
+    "data_train": {
+        "type": "DataLoader",
+        "args":{
+            "data_dir": "/data_autogenome/data_test",  //The folder where the data is located, it is recommended to use an absolute path
+            "features_file": "little_exp.tsv",   //File of features
+            "labels_file": "little_learning_target.tsv",   //File of target
+            "validation_split": 0.2,  //Validation set ratio
+            "shuffle": true,  //Whether to shuffle the data during training
+            "delimiter": " "  //Delimiter in data, default: '\t' 
+        }
+    },
+
+    "data_evaluate": {
+        "type": "DataLoader",
+        "args": {
+            "data_dir": "/data_autogenome/data_test",
+            "features_file": "little_exp.tsv",  //File for evaluation
+            "labels_file": "little_learning_target.tsv",  //target for evaluation
+            "delimiter": " "
+        }
+    },
+
+    "data_predict": {
+        "type": "DataLoader",
+        "args": {
+            "data_dir": "/data_autogenome/data_test",
+            "features_file": "little_exp.tsv",  //File for prediction
+            "delimiter": " "
+        }
+    },
+
+    "input_fn": {
+        "num_threads": 16  //Number of threads for reading data
+    },
+
+    "trainer": {
+        "hyper_selector": true,  //[true/false]，Whether to perform hyperparameter search
+        "batch_size": 64,  
+        "save_dir": "./experiments",  //Folder where logs, model parameters, and results are saved
+        "monitor": "accuracy",  //[accuracy/loss/f1_score]，Evaluate metrics on the validation set during training
+        "num_gpus": 1,  
+        "patience": 30,   //After the number of consecutive epochs do not improve the performance on the validation set, stop training
+        "pre_train_epoch": 10,  //The number of epochs trained in each group of parameters in Hyperparameter search phase
+        "max_steps": 64000,  //Maximum running steps to train. When the patience is large, the max_steps steps will be trained. Max_steps * batch_size / num_samples is the number of epochs corresponding to the training.
+        "loss": "cross_entropy",
+        "selected_mode": "max"   //[max/min]Bigger or smaller is better when evaluation
+    },
+
+    "optimizer": {
+        "type": "adam"  //[adam/sgd/adadelta/adagrad/adamw/ftrl/momentum/rmsprop/kfac/dynamic_momentum/lamb]
+    },
+
+    "evaluator": {
+        "max_number_of_steps": 10,
+        "batch_size":100
+    },
+
+    "predictor": {
+        "log_every_n_steps": 10,
+        "output_every_n_steps": 1,
+        "max_number_of_steps": 100,
+        "batch_size":100
+    },
+
+    "explainer": {
+        "args": {
+            "features_name_file": "/data_autogenome/data_test/names_2.txt",  //File of feature name ，one column，rows are equall to the number of features
+            "plot_type": "bar",  //[bar/dot/violin/layered_violin]
+            "num_samples": 80,  //Number of sample used in explainer
+            "ranked_outputs": 20  //Number of important variables will be ploted
+        }
+    },
+
+    "param_spec": {                //Initial parameters
+        "type": "origin_params",
+        "args": {
+            "DenseNet": {
+                "growth_rate":32,
+                "bn_size":32,
+                "block_config": [2, 3],   //Block parameter in densenet
+                "keep_prob": 1,
+                "output_nonlinear": null
+            },
+            "optimizer_param": {
+                "learning_rate": 0.0001
+            }
+        }
+    },
+
+    "hyper_param_spec": {             //Hyperparameter search space
+        "type": "hyper_params",
+        "args": {
+            "DenseNet": {
+                "growth_rate": [64, 32],
+                "bn_size": [16, 32, 64],
+                "block_config": [[2, 3], [2, 3, 4]],
+                "keep_prob": [0.8, 1.0],
+                "output_nonlinear": [null, "relu", "tanh", "sigmoid"]
+            },
+            "optimizer_param": {
+
+            }
+        }
+}
+}
+
+```
+
+
+
+## Step by step
+
+The use of AutoGenome mainly includes the following steps:
+
+1. import autogenome
+
+   ```python
+   import autogenome as ag
+   ```
+
+2. Read the configuration file, as shown above
+
+   ```python
+   automl = ag.auto("/data_autogenome/data_test/json_hub_simple/densenet_test.json")
+   ```
+
+   After the configuration file is successfully read, the following log is printed:
+
+   ```javascript
+   ==========================================================
+   ----------Use the config from /data_autogenome/data_test/json_hub_simple/densenet_test.json
+   ----------Initialize data_loader class
+   ----------Initialize Optimizer
+   ----------Initialize hyper_param_spec class 
+   ----------Initialize param_spec class 
+   ==========================================================
+   #################################################################################
+   #                                                                               #
+   #                                                                               #
+            Ready to search the best hyper parameters for DenseNet model            
+   #                                                                               #
+   #                                                                               #
+   #################################################################################
+   ```
+
+   
+
+3. Train the model. Model training is performed according to the training parameters in the configuration file, and the data set is divided into training sets: validation set in ratio of 8: 2. the training set data is used for training, and the validation set data is evaluated at the same time. Better models and parameters are saved to the `models` folder in the corresponding folder (trainer.saver:" ./experiments ")
+
+   ```python
+   automl.train()
+   ```
+
+   During training, the model is initialized to the parameters in `param_spec`, and then the parameter search is performed in the hyperparameter search space` hyper_param_spec`. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyperparameter search final model structure parameters  is sured. The final model will be trained, when the results are better, the model parameters are saved, and it will stop train when the effect on the validation set is not improved after several consecutive epochs (trainer.patience).
+
+   Some logs during training are as follows:
+
+   ```javascript
+   ----------In Hyper & Training Search stage
+   ...
+   Pretraining: search parameter is growth_rate, search value is 32
+   LR_RANGE_TEST From begin_lr 0.000010 To end_lr 0.100000, 
+   Graph was finalized.
+   Running local_init_op.
+   Done running local_init_op.
+   Running will end at step: 10
+   step: 0(global step: 0)	sample/sec: 30.537	loss: 0.815	accuracy: 0.500
+   ...
+   [Plateau Metric] step: 227 loss: 0.483 accuracy: 0.969
+   Saving checkpoints for 228 into data_autogenome/data_test/experiments/models/densenet_demo/1217_200522/hyper_lr0.08500150000000001_block_config_23_bn_size_16_output_nonlinear_None_growth_rate_64_keep_prob_0.8/best_model.ckpt.
+   [Plateau Metric] step: 229 loss: 0.906 accuracy: 0.938
+   [Plateau Metric] step: 231 loss: 0.664 accuracy: 0.953
+   [Plateau Metric] step: 233 loss: 1.088 accuracy: 0.922
+   [Plateau Metric] step: 235 loss: 0.214 accuracy: 0.984
+   Saving checkpoints for 236 into data_autogenome/data_test/experiments/models/densenet_demo/1217_200522/hyper_lr0.08500150000000001_block_config_23_bn_size_16_output_nonlinear_None_growth_rate_64_keep_prob_0.8/best_model.ckpt.
+   [Plateau Metric] step: 237 loss: 0.613 accuracy: 0.953
+   [Plateau Metric] step: 239 loss: 0.797 accuracy: 0.938
+   ...
+   ```
+
+   
+
+4. Evaluation. According to the model structure and model parameters trained in the previous step, evaluate the performance on `data_evaluate`. The classification model will print the accuracy value and the confusion matrix.
+
+   ```python
+   automl.evaluate()
+   ```
+
+   Some logs are as follows:
+
+   ```javascript
+   ----------In Evaluation stage
+   Restoring parameters from data_autogenome/data_test/experiments/models/densenet_demo/1217_200522/hyper_lr0.08500150000000001_block_config_23_bn_size_16_output_nonlinear_None_growth_rate_64_keep_prob_0.8/best_model.ckpt-272
+   Running local_init_op.
+   Done running local_init_op.
+   step: 1	batch/sec: 13.002	loss: 0.080	accuracy: 0.990
+   step: 3	batch/sec: 17.464	loss: 0.080	accuracy: 0.990
+   step: 5	batch/sec: 14.547	loss: 0.080	accuracy: 0.990
+   step: 7	batch/sec: 11.867	loss: 0.080	accuracy: 0.990
+   step: 9	batch/sec: 13.184	loss: 0.080	accuracy: 0.990
+   loss: 0.07991278767585755	accuracy: 0.9899998664855957		[10 batches]
+   Confusion matrix plot is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/DenseNet_confusion_matrix.pdf'
+   ```
+
+   The resulting confusion matrix is shown below. The size of the figure will be adjusted according to the number of categories. The x-axis is true value and the y-axis is the predicted value.
+
+   ![](/images/densenet_confusion_matrix.png)
+
+   
+
+5. Prediction. According to the model structure and model parameters trained in step 3, for a given features data, the classification model predicts its category and the softmax value of each category, and will be saved as csv file.
+
+   ```python
+   automl.predict()
+   ```
+
+   Some logs are as follows:
+
+   ```javascript
+   ----------In Prediction stage 
+   Restoring parameters from data_autogenome/data_test/experiments/models/densenet_demo/1217_200522/hyper_lr0.08500150000000001_block_config_23_bn_size_16_output_nonlinear_None_growth_rate_64_keep_prob_0.8/best_model.ckpt-272
+   Running local_init_op.
+   Done running local_init_op.
+   ...
+   Predicted values file is "data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/DenseNet_predicted_result_data_frame.csv"
+   ```
+
+   As shown in the log, the predicted target file will be produced. The first column of the file is `predicted_result`, and the second column of `softmax_value` is the softmax value of each category.
+
+6. Explanation. Sort the importance of the variables according to the model trained in step 3. The file corresponding to the variable name needs to be specified in the `explainer`.
+
+   ```python
+   automl.explain()
+   ```
+
+   Sort the importance of the model variables, and the log is as follows:
+
+   ```javascript
+   ----------Initialize Shap class
+   Restoring parameters from data_autogenome/data_test/experiments/models/densenet_demo/1217_200522/hyper_lr0.08500150000000001_block_config_23_bn_size_16_output_nonlinear_None_growth_rate_64_keep_prob_0.8/best_model.ckpt-272
+   ----------Computing shap_values with 80  examples and 23361 features
+   importance plot is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/_dot0_feature_importance_summary.pdf'
+   importance plot is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/_dot1_feature_importance_summary.pdf'
+   features orders in all classes is saved in 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/_features_orders.csv'
+   importance plot for every classes is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/class_0feature_importance_summary.pdf'
+   importance plot for every classes is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/class_1feature_importance_summary.pdf'
+   importance plot is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/_barTotal_feature_importance_summary.pdf'
+   shap_values every classes is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/_class_0shap_values.csv'
+   shap_values every classes is 'data_autogenome/data_test/experiments/output_files/densenet_demo/1217_200522/_class_1shap_values.csv'
+   ```
+
+   Variable importance bar charts and dot charts and total variable importance charts for each category are produced, as shown below:
+
+   Importance map for all variable：
+
+   ![](/images/densenet_total_feature_importance_summary.png)
+
+   Features importance bar plot for class1:
+
+   ![](/images/densenet_class1_feature_importance_summary_bar.png)
+
+   Features importance bar plot for class0:
+
+   ![](/images/densenet_class0_feature_importance_summary_bar.png)
+
+   Features importance dot plot for class1:
+
+   ![](/images/densenet_class1_feature_importance_summary_dot.png)
+
+   Features importance dot plot for class0:
+
+   ![](/images/densenet_class0_feature_importance_summary_dot.png)

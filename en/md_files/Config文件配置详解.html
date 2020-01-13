@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-CN" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Config文件配置详解 &mdash; autogenome 1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="MLP案例" href="MLP案例.html" />
+    <link rel="prev" title="快速开始" href="快速开始.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> autogenome
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AutoGenome介绍.html">AutoGenome介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="快速开始.html">快速开始</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Config文件配置详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLP案例.html">MLP案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ResNet案例.html">ResNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DenseNet案例.html">DenseNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ENAS案例.html">ENAS案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Res-VAE案例.html">Res-VAE案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="常见问题.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="附录.html">附录</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">autogenome</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Config文件配置详解</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_files/Config文件配置详解.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="config">
+<h1>Config文件配置详解<a class="headerlink" href="#config" title="永久链接至标题">¶</a></h1>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>{
+  &quot;name&quot;: &quot;exp1&quot;,        // Project name
+
+  &quot;model&quot;: {
+    &quot;type&quot;: &quot;ResNet&quot;,        // [MLP/ResNet/densnet/VAE/enas]
+    &quot;args&quot;: {
+        &quot;output_classes&quot;: 5,        // Args for Supervised classs
+        &quot;is_regression&quot;: false,        //[true/false] whether running a regression
+        &quot;multi_tasks&quot;: false        //[true/false] whether running a multi_tasks regression
+    }                
+  },
+
+  &quot;data_train&quot;: {        //Needed in automl.train()
+        &quot;type&quot;: &quot;DataLoader&quot;,        //[DataLoader/BigDataLoader] Selecting data loader, using BigDataLoader when data file is big
+        &quot;args&quot;:{
+            &quot;data_dir&quot;: &quot;/autogenome/data/&quot;,        //Dataset path
+            &quot;features_file&quot;: &quot;little_exp.tsv&quot;,        //Features file name
+            &quot;labels_file&quot;: &quot;little_learning_target.tsv&quot;,        //Labels file name
+            &quot;validation_split&quot;: 0.2,        //Size of validation dataset, float(portion) 
+            &quot;shuffle&quot;: true,        //Shuffle training data before splitting
+            &quot;validation_features&quot;: null,        //Validation features file name, needed when validation_split is null
+            &quot;validation_labels&quot;: null
+        }
+    },
+
+  &quot;data_evaluate&quot;: {                                        //Needed in automl.evaluate()
+        &quot;type&quot;: &quot;DataLoader&quot;,
+        &quot;args&quot;: {
+            &quot;data_dir&quot;: &quot;/autogenome/data/&quot;,
+            &quot;features_file&quot;: &quot;little_exp.tsv&quot;,
+            &quot;labels_file&quot;: &quot;little_learning_target.tsv&quot;
+        }
+    },
+
+  &quot;data_predict&quot;: {        //Needed in automl.predict()
+        &quot;type&quot;: &quot;DataLoader&quot;,
+        &quot;args&quot;: {
+            &quot;data_dir&quot;: &quot;/autogenome/data/&quot;,
+            &quot;features_file&quot;: &quot;little_exp.tsv&quot;,
+
+        }
+    },
+
+  &quot;input_fn&quot;: {
+        &quot;capacity&quot;: 50000,        //An integer. The maximum number of elements in the queue.
+        &quot;enqueue_many&quot;: true,        //Whether each tensor in `tensor_list` is a single example.
+        &quot;min_after_dequeue&quot;: 0,        //Minimum number elements in the queue after a dequeue, used to ensure a level of mixing of elements.
+        &quot;num_threads&quot;: 16,         //The number of threads enqueuing `tensor_list`.
+        &quot;seed&quot;:0,        //Seed for the random shuffling within the queue.
+        &quot;allow_smaller_final_batch&quot;:true        //(Optional) Boolean. If `True`, allow the final batch to be smaller if there are insufficient items left in the queue.
+
+    },
+
+ // [&quot;trainer&quot;]for MLP/ResNet/DenseNet/res-VAE
+  &quot;trainer&quot;: {
+        &quot;hyper_selector&quot;: true,        // Whether to use hyper_selector or not
+        &quot;batch_size&quot;: 64,        //Batch_size
+        &quot;save_dir&quot;: &quot;experiments/&quot;,        // Dir to save models, logs and output files
+        &quot;monitor&quot;: &quot;accuracy&quot;,        // [accuracy/loss] A Tensor. Quantity to be monitored
+        &quot;selected_mode&quot;: &quot;max&quot;,       //[min/max] mode to select best model when monitor is bigger[max] or smaller[min]
+        &quot;num_gpus&quot;: 1,        // Num_gpus
+        &quot;evaluate_every_n_epochs&quot;: 1,        //Trigger the evaluation after running n epochs of training.
+        &quot;min_delta&quot;: 0.001,        //Minimum change in the monitored quantity to qualify as an improvement, i.e. an absolute change of less than min_delta, will count as no improvement.
+        &quot;patience&quot;: 10,        //Number of epochs with no improvement after which learning rate will be decayed.
+        &quot;decay_lr&quot;: 10,        //Learning rate is decayed by dividing `decay_lr` when no improvement is detected.
+        &quot;decay_min_delta&quot;: 0.001,        //Minimum change in the monitored quantity to qualify as an improvement between last monitored quantity and current monitored quantity with different learning rate.
+        &quot;decay_patience&quot;: 1,         //Number of times with decaying learning rate after which training will be stopped.
+        &quot;pre_train_epoch&quot;: 10,        // epoches for hyperparams tunning
+        &quot;select_by_eval&quot;: true,         //Select best hyper-parameters by eval metric or by train metric. Default is False.
+        &quot;max_steps&quot;: 64000,         // Steps for training, will be changed into epoches
+        &quot;auto_batch&quot;: false,         //If True, an extra dimension of batch_size will be expanded to the first dimension of the return value from get_split. Default to True.
+        &quot;log_every_n_steps&quot;: 10,        //Logging every n steps. Default is 10.
+        &quot;save_model_secs&quot;: 0,    // The frequency, in seconds, that a checkpoint is saved using a default checkpoint saver.  `save_model_steps` will added. If both are provided, then only `save_model_secs` is used. Default 600.
+        &quot;init_learning_rate&quot;: 0.0001,        // Init rate while hyperparamter search, if set `null`, the init rate will calculated automatically
+        &quot;end_learning_rate&quot;: 0.1,        //End rate while hyperparamter search, if set `null`, the end rate will calculated automatically
+        &quot;loss&quot;: &quot;cross_entropy&quot;,         //[&quot;cross_entropy&quot;/&quot;focal_loss&quot;] using &quot;focal_loss&quot; when data are class imbalanced
+        &quot;selected_mode&quot;: &quot;max&quot;         //[&quot;max&quot;/&quot;min&quot;]  
+    },
+ // [&quot;trainer&quot;] for enas
+  &quot;trainer&quot;:{
+        &quot;child_num_layers&quot;: 6,        // set the model layers
+        &quot;log_every_n_steps&quot;: 10,        //Logging every n steps. Default is 10.
+        &quot;batch_size&quot;: 512,       
+        &quot;max_number_of_epoches_in_search&quot;: 500,        // num of epoches in search part
+        &quot;max_number_of_epoches_in_fixed&quot;: 200,        // num of epoches to train
+        &quot;top_k_candidates&quot;: 5,        // number of candidate saved from search and will be trained soon
+        &quot;child_lr_reg&quot;: 1e-4,         // the parameter of l2 regularization loss
+        &quot;max_search_channel&quot;: 1024,        // the max channel of search space      
+        &quot;save_dir&quot;: &quot;experiments/enas/&quot;
+  },
+
+
+  &quot;optimizer&quot;: {
+    &quot;type&quot;: &quot;Adam&quot;         //[adam/sgd/adadelta/adagrad/adamw/ftrl/momentum/rmsprop/kfac/dynamic_momentum/lamb]
+  },
+
+  // [&quot;evaluator&quot;] for  MLP/ResNet/DenseNet/res-VAE
+  &quot;evaluator&quot;: {
+        &quot;checkpoint_path&quot;: &quot;default&quot;,         // Checkpoint_path to restore
+        &quot;log_every_n_steps&quot;: 2,         //Logging every n steps.
+        &quot;output_every_n_steps&quot;: 1,        // Logging output every n steps.
+        &quot;max_number_of_steps&quot;: 100         // The max number of steps for evaluation
+        &quot;batch_size&quot;:64
+
+    },
+
+  // [&quot;evaluator&quot;] for  enas
+  &quot;evaluator&quot;:{
+        &quot;checkpoint_path&quot;: &quot;default&quot;,
+        &quot;log_every_n_steps&quot;: 1,
+        &quot;output_every_n_steps&quot;: 1,
+        &quot;max_number_of_steps&quot;: 30,
+        &quot;batch_size&quot;: 100,
+        &quot;arc&quot;: null         // The architecture of model, when checkpoint_path is not default
+  },
+
+  // [&quot;predictor&quot;] for  MLP/ResNet/DenseNet/res-VAE
+  &quot;predictor&quot;: {
+        &quot;checkpoint_path&quot;: &quot;default&quot;,
+        &quot;log_every_n_steps&quot;: 10,
+        &quot;output_every_n_steps&quot;: 1,
+        &quot;max_number_of_steps&quot;: 100, 
+        &quot;batch_size&quot;:64
+    },
+
+   // [&quot;predictor&quot;] for  enas
+   &quot;predictor&quot;：{
+        &quot;checkpoint_path&quot;: &quot;default&quot;,
+        &quot;log_every_n_steps&quot;: 1,
+        &quot;output_every_n_steps&quot;: 1,
+        &quot;max_number_of_steps&quot;: 300,
+        &quot;batch_size&quot;: 150,
+        &quot;arc&quot;: null        // The architecture of model, when checkpoint_path is not default
+    },
+
+  &quot;param_spec&quot;: {
+        &quot;type&quot;: &quot;origin_params&quot;,        // The init model params before hyperparameter search 
+        &quot;args&quot;: {
+            &quot;MLP&quot;: {
+                &quot;FC1_SIZE&quot;: 512,
+                &quot;FC2_SIZE&quot;: 512,
+                &quot;FC3_SIZE&quot;: 512,
+                &quot;FC4_SIZE&quot;: 512,
+                &quot;FC5_SIZE&quot;: 512,
+                &quot;FC6_SIZE&quot;: 512,
+                &quot;keep_prob&quot;: 0.8,
+                &quot;output_nonlinear&quot;: null
+            },                   // MLP model params, keep_prob is set into first laryer; output_nonlinear is set at the last layer
+            &quot;ResNet&quot;: {
+                &quot;n_latent&quot;: 128,
+                &quot;n_blocks&quot;: 2,
+                &quot;keep_prob&quot;: 0.8,
+                &quot;output_nonlinear&quot;: null
+            },                  // ResNet model params
+            &quot;DenseNet&quot;: {
+                &quot;growth_rate&quot;:32,
+                &quot;bn_size&quot;:16,
+                &quot;block_config&quot;: [2, 2, 2, 2],
+                &quot;keep_prob&quot;: 0.8,
+                &quot;output_nonlinear&quot;: null
+            },                  // DenseNet model params
+            &quot;VAE&quot;:{
+                &quot;keep_prob&quot;:0.6,
+                &quot;start_size&quot;:4096,
+                &quot;decay_ratio_list&quot;:[0.6, 0.8, 0.8, 0.8]
+            },                  // VAE model params
+            &quot;optimizer_param&quot;: {
+                &quot;best_lr&quot;: 0.001
+            }                           // Params for optimizer_param
+        }
+    },
+
+  &quot;hyper_param_spec&quot;: {
+        &quot;type&quot;: &quot;hyper_params&quot;,         // Select the model through performance in different combination.
+        &quot;args&quot;: {
+            &quot;MLP&quot;: {
+                &quot;FC1_SIZE&quot;: [ 64, 32, 16, 8],
+                &quot;FC2_SIZE&quot;: [ 64, 32, 16, 8],
+                &quot;FC3_SIZE&quot;: [ 64, 32, 16, 8],
+                &quot;FC4_SIZE&quot;: [ 64, 32, 16, 8],
+                &quot;FC5_SIZE&quot;: [ 64, 32, 16, 8],
+                &quot;FC6_SIZE&quot;: [ 64, 32, 16, 8],
+                &quot;keep_prob&quot;: [ 0.8, 1.0],
+                &quot;output_nonlinear&quot;: [null, &quot;relu&quot;, &quot;tanh&quot;, &quot;sigmoid&quot;]
+            },
+            &quot;ResNet&quot;: {
+                &quot;n_latent&quot;: [4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8],
+                &quot;n_blocks&quot;: [1, 2, 3, 5],
+                &quot;keep_prob&quot;: [0.2, 0.4, 0.6, 0.8, 1.0],
+                &quot;output_nonlinear&quot;: [null, &quot;relu&quot;, &quot;tanh&quot;, &quot;sigmoid&quot;]
+            },
+            &quot;DenseNet&quot;: {
+                &quot;growth_rate&quot;: [512, 256, 128, 64, 32, 16, 8],
+                &quot;bn_size&quot;: [16, 32],
+                &quot;block_config&quot;: [[2, 3, 4], [3, 4, 5]],
+                &quot;keep_prob&quot;: [0.2, 0.4, 0.6, 0.8, 1.0],
+                &quot;output_nonlinear&quot;: [null, &quot;relu&quot;, &quot;tanh&quot;, &quot;sigmoid&quot;]
+            },
+
+            &quot;VAE&quot;:{
+                &quot;keep_prob&quot;:[0.2, 0.4, 0.6, 0.8, 1.0],
+                &quot;start_size&quot;:[4096, 2048, 1024, 512, 256, 128, 64, 32], 
+                &quot;num_layers&quot;:[4,3],
+                &quot;decay_ratio&quot;:[0.6, 0.5]
+            }
+            &quot;optimizer_param&quot;: {
+
+            }
+        }
+        }
+}
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="MLP案例.html" class="btn btn-neutral float-right" title="MLP案例" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="快速开始.html" class="btn btn-neutral float-left" title="快速开始" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Huawei
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

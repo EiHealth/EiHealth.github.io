@@ -1,0 +1,237 @@
+
+
+# Example of  Res-VAE
+
+- [config.json in use](##config.json in use)
+- [Step by step](##Step by step)
+
+
+
+Res-VAE case uses a binary classification task as an example. The `features` data` little_exp.tsv` contains 100 samples and 23361 features. The purpose of the case is to do dimensionality reduction, and get the latent vector for further cluster analysis.
+
+<img src="..\images\vae.png" style="zoom:75%;" />
+
+```bash
+> wc little_exp.tsv | awk '{print $1}'  # rows
+100
+> sed -n '1,1p' little_exp.tsv | awk '{print NF}'  # columns
+23361
+```
+
+
+
+First, prepare the configuration file, as shown below:：
+
+## config.json  in use
+
+```javascript
+{
+    "name": "res_vae_demo",   // Project name
+
+    "model": {
+        "type": "VAE"
+    },
+
+    "data_train": {
+        "type": "DataLoader",
+        "args":{
+            "data_dir": "/data_autogenome/data_test",  //The folder where the data is located, it is recommended to use an absolute path
+            "features_file": "little_exp.tsv",  //File of features
+            "validation_split": 0.2,   //Validation set ratio
+            "shuffle": true,   //Whether to shuffle the data during training
+            "delimiter": " "    //Delimiter in data, default: '\t' 
+        }
+    },
+
+    "data_predict": {
+        "type": "DataLoader",
+        "args": {
+            "data_dir": "/data_autogenome/data_test",
+            "features_file": "little_exp.tsv",    //File for evaluation
+            "delimiter": " "
+        }
+    },
+
+    "input_fn": {
+        "num_threads": 16    //Number of threads for reading data
+    },
+
+    "trainer": {
+        "hyper_selector": true,
+        "batch_size": 64,
+        "save_dir": "./experiments/",
+        "monitor": "loss",
+        "selected_mode": "min",
+        "num_gpus": 1,
+        "select_by_eval":false,
+        "patience": 30,
+        "pre_train_epoch": 10,  //The number of epochs trained in each group of parameters in Hyperparameter search phase
+        "max_steps": 64000  //Maximum running steps to train. When the patience is large, the max_steps steps will be trained. Max_steps * batch_size / num_samples is the number of epochs corresponding to the training.
+    },
+
+    "optimizer": {
+        "type": "adam"
+    },
+
+    "predictor": {
+        "log_every_n_steps": 10,
+        "output_every_n_steps": 1,
+        "max_number_of_steps": 20,
+        "batch_size": 64
+    },
+
+    "param_spec": {   //Initial parameters
+        "type": "origin_params",
+        "args": {
+            "VAE": {
+                "keep_prob": 1.0,
+                "start_size": 1024,
+                "decay_ratio_list": [0.8, 0.6, 0.6]
+            },
+            "optimizer_param": {
+                "learning_rate": 0.01
+            }
+        }
+    },
+
+    "hyper_param_spec": {   //Hyperparameter search space
+        "type": "hyper_params",
+        "args": {
+            "VAE": {
+                "keep_prob": [0.6, 0.8, 1.0],
+                "start_size": [1024, 512, 256],
+                "num_layers": [5, 4, 3],
+                "decay_ratio": [0.6, 0.8]
+            },
+            "optimizer_param": {
+
+            }
+        }
+}
+}
+
+```
+
+
+
+## Step by step
+
+The use of AutoGenome mainly includes the following steps:
+
+1. import autogenome
+
+   ```python
+   import autogenome as ag
+   ```
+
+2. Read the configuration file, as shown above
+
+   ```python
+   automl = ag.auto("/data_autogenome/data_test/json_hub_simple/densenet_test.json")
+   ```
+
+   After the configuration file is successfully read, the following log is printed:
+
+   ```javascript
+   ==========================================================
+   ----------Use the config from /data_autogenome/data_test/json_hub_simple/resvae_test.json
+   ----------Initialize data_loader class
+   ----------Initialize Optimizer
+   ----------Initialize hyper_param_spec class 
+   ----------Initialize param_spec class 
+   ==========================================================
+   #################################################################################
+   #                                                                               #
+   #                                                                               #
+            Ready to search the best hyper parameters for VAE model            
+   #                                                                               #
+   #                                                                               #
+   #################################################################################
+   ```
+
+   
+
+3. Train the model. Model training is performed according to the training parameters in the configuration file, and the data set is divided into training sets: validation set in ratio of 8: 2. the training set data is used for training, and the validation set data is evaluated at the same time. Better models and parameters are saved to the `models` folder in the corresponding folder (trainer.saver:" ./experiments ")
+
+   ```python
+   automl.train()
+   ```
+
+   During training, the model is initialized to the parameters in `param_spec`, and then the parameter search is performed in the hyperparameter search space` hyper_param_spec`. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyperparameter search final model structure parameters  is sured. The final model will be trained, when the results are better, the model parameters are saved, and it will stop train when the effect on the validation set is not improved after several consecutive epochs (trainer.patience).
+
+   Some logs during training are as follows:
+
+   ```javascript
+   ----------In Hyper & Training Search stage
+   ...
+   Pretraining: search parameter is decay_ratio_list, search value is (0.6, 0.6, 0.6, 0.6)
+   LR_RANGE_TEST From begin_lr 0.000010 To end_lr 0.100000, 
+   Graph was finalized.
+   Running local_init_op.
+   Done running local_init_op.
+   From /opt/conda/envs/py2/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py:804: start_queue_runners (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+   Instructions for updating:
+   To construct input pipelines, use the `tf.data` module.
+   Running will end at step: 200
+   step: 0(global step: 0)	sample/sec: 1.066	loss: 6.500	reconstruct_loss: 6.491	KLD_loss: 0.009
+   step: 10(global step: 10)	sample/sec: 4.948	loss: 4.740	reconstruct_loss: 4.730	KLD_loss: 0.009
+   step: 20(global step: 20)	sample/sec: 4.905	loss: 4.479	reconstruct_loss: 4.469	KLD_loss: 0.010
+   step: 30(global step: 30)	sample/sec: 4.958	loss: 4.194	reconstruct_loss: 4.184	KLD_loss: 0.010
+   step: 40(global step: 40)	sample/sec: 4.937	loss: 5.517	reconstruct_loss: 5.507	KLD_loss: 0.010
+   step: 50(global step: 50)	sample/sec: 4.972	loss: 5.426	reconstruct_loss: 5.417	KLD_loss: 0.010
+   step: 60(global step: 60)	sample/sec: 5.000	loss: 5.974	reconstruct_loss: 5.964	KLD_loss: 0.010
+   step: 70(global step: 70)	sample/sec: 4.952	loss: 5.954	reconstruct_loss: 5.944	KLD_loss: 0.010
+   step: 80(global step: 80)	sample/sec: 4.978	loss: 5.019	reconstruct_loss: 5.009	KLD_loss: 0.010
+   step: 90(global step: 90)	sample/sec: 4.970	loss: 7.211	reconstruct_loss: 7.201	KLD_loss: 0.010
+   step: 100(global step: 100)	sample/sec: 4.895	loss: 6.998	reconstruct_loss: 6.988	KLD_loss: 0.010
+   step: 110(global step: 110)	sample/sec: 4.945	loss: 6.677	reconstruct_loss: 6.666	KLD_loss: 0.011
+   step: 120(global step: 120)	sample/sec: 4.986	loss: 6.008	reconstruct_loss: 5.997	KLD_loss: 0.011
+   step: 130(global step: 130)	sample/sec: 4.887	loss: 6.592	reconstruct_loss: 6.582	KLD_loss: 0.011
+   step: 140(global step: 140)	sample/sec: 4.960	loss: 7.500	reconstruct_loss: 7.489	KLD_loss: 0.011
+   step: 150(global step: 150)	sample/sec: 4.953	loss: 7.281	reconstruct_loss: 7.271	KLD_loss: 0.011
+   step: 160(global step: 160)	sample/sec: 4.930	loss: 6.914	reconstruct_loss: 6.904	KLD_loss: 0.011
+   step: 170(global step: 170)	sample/sec: 4.935	loss: 7.423	reconstruct_loss: 7.412	KLD_loss: 0.011
+   step: 180(global step: 180)	sample/sec: 4.948	loss: 7.145	reconstruct_loss: 7.134	KLD_loss: 0.011
+   step: 190(global step: 190)	sample/sec: 4.943	loss: 6.629	reconstruct_loss: 6.619	KLD_loss: 0.011
+   ...
+   The model and events are saved in data_autogenome/data_test/experiments/models/res_vae_demo/1105_013120/hyper_lr0.017883212500000002_decay_ratio_list_(0.60.60.6)_start_size_256_keep_prob_1.0
+   Graph was finalized.
+   Running local_init_op.
+   Done running local_init_op.
+   Running will end at step: 64000
+   step: 0(global step: 0)	sample/sec: 2.123	loss: 6.988	reconstruct_loss: 6.987	KLD_loss: 0.001
+   step: 5(global step: 5)	sample/sec: 10.490	loss: 6.911	reconstruct_loss: 6.910	KLD_loss: 0.001
+   step: 10(global step: 10)	sample/sec: 36.250	loss: 6.771	reconstruct_loss: 6.770	KLD_loss: 0.001
+   step: 15(global step: 15)	sample/sec: 20.972	loss: 4.897	reconstruct_loss: 4.896	KLD_loss: 0.001
+   step: 20(global step: 20)	sample/sec: 28.025	loss: 3.996	reconstruct_loss: 3.995	KLD_loss: 0.001
+   step: 25(global step: 25)	sample/sec: 77.930	loss: 2.605	reconstruct_loss: 2.604	KLD_loss: 0.001
+   step: 30(global step: 30)	sample/sec: 77.654	loss: 2.056	reconstruct_loss: 2.056	KLD_loss: 0.000
+   step: 35(global step: 35)	sample/sec: 77.751	loss: 1.682	reconstruct_loss: 1.681	KLD_loss: 0.001
+   [Plateau Metric] step: 39 loss: 1700371756103124513701494784.000 reconstruct_loss: 1696594689330963519620775936.000 KLD_loss: 3777113350190000207036416.000
+   Saving checkpoints for 40 into data_autogenome/data_test/experiments/models/res_vae_demo/1105_013120/hyper_lr0.017883212500000002_decay_ratio_list_(0.60.60.6)_start_size_256_keep_prob_1.0/best_model.ckpt.
+   ...
+   ```
+
+
+4. Prediction. According to the model structure and model parameters trained in step 3, for a given features data, the `latent vector`and`reconstruction data` will be saved.
+
+   ```python
+   automl.predict()
+   ```
+
+   Some logs are as follows:：
+
+   ```javascript
+   ----------In Prediction stage 
+   Restoring parameters from data_autogenome/data_test/experiments/models/res_vae_demo/1105_013120/hyper_lr0.017883212500000002_decay_ratio_list_(0.60.60.6)_start_size_256_keep_prob_1.0/best_model.ckpt-1040
+   Running local_init_op.
+   Done running local_init_op.
+   step: 9	batch/sec: 69.090
+   step: 19	batch/sec: 69.454
+   	[20 batches]
+   latent_vector and reconstruction x  values file is: "data_autogenome/data_test/experiments/output_files/res_vae_demo/1105_013120/res_vae_predicted_latent_vector_data_frame.csv" and "data_autogenome/data_test/experiments/output_files/res_vae_demo/1105_013120/res_vae_predicted_recon_x_data_frame.csv"
+   ```
+
+   The obtained latent vector data can be further clustered and compared with other methods, as shown below:
+
+   ![](../images/vae_vs.PNG)

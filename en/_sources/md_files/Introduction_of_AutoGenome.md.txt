@@ -1,0 +1,33 @@
+# AutoGenome-Introduction
+
+AutoGenome is an end-to-end automated genomic deep learning framework that could train high-performance deep learning models for various kinds of genomic profiling data automatically. To make researchers better understand the results, AutoGenome could assess the feature importance and export the most important features for supervised learning, and the representative latent vectors for unsupervised learning.
+
+## Background
+
+Deep learning have made great successes in traditional fields like computer vision (CV), natural language processing (NLP) and speech processing. Those achievements greatly inspire researchers in genomic study and make deep learning in genomics a very hot topic. 
+
+However, for non-sequence data like genomic profiling data, where RNA expression value, gene mutation status, or gene copy number variations from whole genome are profiled, CNN or RNN will be invalid because there are no spatial or temporal relationships in the data. For genomic profiling data, the underlying mechanism is the gene regulatory pathway/network: several genes interact with (activate or inhibit) each other and compose a structured hieratical network to regulate the biological functions, which is the key to model genomic profiling data using deep learning.
+
+In genomic area, most studies are still limited to handcrafted DNN structures and parameter space. Hyper parameter selection and network architecture selection are needed.
+
+
+
+## Features
+
+- For genomics data, MLP (Multilayer Perceptron) structure is often used as for its simple and flexible features. AutoGenome has a search strategy for the MLP network structure. By setting the search space for the number of network layers and the number of hidden neurons, and using MoXing's hyperparameter search method, the optimal network structure is selected based on the performance of the candidate network structure.
+
+  
+
+- Inspired by ResNet and DenseNet, AutoGenome introduced skip connections into genomics data. According to the idea of CASH in AutoML (Combined Algorithm Selection and Hyperparameter optimization), model selection and hyperparameter tuning are combined into the same problem, and the network structure of the ResNet and Densenet networks is selected by means of hyperparameter search, so that it can target different Data to select a better network structure.
+
+  
+
+- MLP, ResNet, and DenseNet are all based on a certain prior knowledge of the network structure, and the search space is limited to the way of Grid Search in hyperparameter search; in order to make the search space more flexible, AutoGenome introduces ENAS (Efficient Neural Architecture Search ). ENAS is a type of NAS. Because it innovatively shares the parameters of the network structure, the efficiency of neural network structure search is greatly improved, and it overcomes the shortcomings of the huge computing power cost of NAS. Through the strategy of reinforcement learning, the NAS optimizes the controller model-LSTM that generates the sub-model structure through the optimization strategy. The LSTM model can generate the size of each layer of the sub-model and candidate jumps in the sub-model according to the preset number of network layers of the sub-model. Candidate operators used in traditional ENAS structures often include various operations such as convolution, while AutoGenome reduces the operators to fully connected operations, making them suitable for genomics data.
+
+  
+
+- MLP, ResNet, DenseNet, and ENAS are all belongs to supervised learning and can be applied to regression and classification problems. But in addition, in the field of biological genes, because of the high dimensionality of data, unsupervised learning such as dimensionality reduction is often used. Therefore, on the basis of traditional VAE, AutoGenome realizes a residual fully-connected variational auto-encoder (Res-VAE) by adding skip connections. In the traditional VAE system, the encoder compresses the input into hidden variables of smaller dimensions by reducing the number of network neurons in each layer, and the decoder reconstructs the input data by increasing the number of neurons in each layer starting from the hidden variables. Res-VAE adds skip connections to both the encoder and decoder, making the network structure more flexible. By minimizing the sum of reconstruction error and Kullback-Leibler divergence (KLD) error, Res-VAE learns the essential characteristics of the data from the original data, and these characteristics are stored in hidden variables, thereby achieving the purpose of dimensionality reduction, which will be used in further analysis.
+
+  
+
+- In the medical field, researchers are not just satisfied with the effects of models. The particularity of medical treatment has caused people to think more about the reasons for the effects of models. The interpretability of deep neural networks has limited the application of artificial intelligence in the rigorous medical field. Therefore, the interpretability of models in the medical field is essential. How to gain insight into the black box of neural network models? A lot of frontier research has been carried out in this area. SHAP (SHapley Additive exPlanations) uses cooperative game contributions and income distribution to quantify the contribution of each feature to the model. To make it easier for researchers to study deep learning models, we have introduced SHAP into AutoGenome. Given a deep learning model, SHAP will calculate the marginal contribution of each feature to the overall prediction, called the SHAP value. AutoGenome can visualize the characteristic importance of each gene to the predicted category, or the distribution of the SHAP value of each gene to the predicted category. The visualization of these results provides meaningful insights into the interpretability of deep learning models.

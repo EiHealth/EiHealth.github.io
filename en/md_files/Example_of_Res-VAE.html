@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-CN" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example of Res-VAE &mdash; autogenome 1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="TODO" href="TODO.html" />
+    <link rel="prev" title="Example of ENAS" href="Example_of_ENAS.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> autogenome
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction_of_AutoGenome.html">AutoGenome-Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quick_start.html">Quick-start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Instructions_of_Config.html">Introduction of config.json</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_MLP.html">Example of MLP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_ResNet.html">Example of ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_DenseNet.html">Example of DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_ENAS.html">Example of ENAS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example of  Res-VAE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#config-json-in-use">config.json  in use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-by-step">Step by step</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix.html">Appendix</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">autogenome</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Example of  Res-VAE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_files/Example_of_Res-VAE.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-of-res-vae">
+<h1>Example of  Res-VAE<a class="headerlink" href="#example-of-res-vae" title="永久链接至标题">¶</a></h1>
+<ul class="simple">
+<li>[config.json in use](##config.json in use)</li>
+<li>[Step by step](##Step by step)</li>
+</ul>
+<p>Res-VAE case uses a binary classification task as an example. The <code class="docutils literal notranslate"><span class="pre">features</span></code> data<code class="docutils literal notranslate"> <span class="pre">little_exp.tsv</span></code> contains 100 samples and 23361 features. The purpose of the case is to do dimensionality reduction, and get the latent vector for further cluster analysis.</p>
+<img src="..\images\vae.png" style="zoom:75%;" /><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; wc little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span>  <span class="c1"># rows</span>
+<span class="m">100</span>
+&gt; sed -n <span class="s1">&#39;1,1p&#39;</span> little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print NF}&#39;</span>  <span class="c1"># columns</span>
+<span class="m">23361</span>
+</pre></div>
+</div>
+<p>First, prepare the configuration file, as shown below:：</p>
+<div class="section" id="config-json-in-use">
+<h2>config.json  in use<a class="headerlink" href="#config-json-in-use" title="永久链接至标题">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;res_vae_demo&quot;</span><span class="p">,</span>   <span class="c1">// Project name</span>
+
+    <span class="s2">&quot;model&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;VAE&quot;</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;data_train&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;DataLoader&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;args&quot;</span><span class="o">:</span><span class="p">{</span>
+            <span class="s2">&quot;data_dir&quot;</span><span class="o">:</span> <span class="s2">&quot;/data_autogenome/data_test&quot;</span><span class="p">,</span>  <span class="c1">//The folder where the data is located, it is recommended to use an absolute path</span>
+            <span class="s2">&quot;features_file&quot;</span><span class="o">:</span> <span class="s2">&quot;little_exp.tsv&quot;</span><span class="p">,</span>  <span class="c1">//File of features</span>
+            <span class="s2">&quot;validation_split&quot;</span><span class="o">:</span> <span class="mf">0.2</span><span class="p">,</span>   <span class="c1">//Validation set ratio</span>
+            <span class="s2">&quot;shuffle&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">//Whether to shuffle the data during training</span>
+            <span class="s2">&quot;delimiter&quot;</span><span class="o">:</span> <span class="s2">&quot; &quot;</span>    <span class="c1">//Delimiter in data, default: &#39;\t&#39; </span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;data_predict&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;DataLoader&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;args&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;data_dir&quot;</span><span class="o">:</span> <span class="s2">&quot;/data_autogenome/data_test&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;features_file&quot;</span><span class="o">:</span> <span class="s2">&quot;little_exp.tsv&quot;</span><span class="p">,</span>    <span class="c1">//File for evaluation</span>
+            <span class="s2">&quot;delimiter&quot;</span><span class="o">:</span> <span class="s2">&quot; &quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;input_fn&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;num_threads&quot;</span><span class="o">:</span> <span class="mi">16</span>    <span class="c1">//Number of threads for reading data</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;trainer&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;hyper_selector&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="s2">&quot;batch_size&quot;</span><span class="o">:</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="s2">&quot;save_dir&quot;</span><span class="o">:</span> <span class="s2">&quot;./experiments/&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;monitor&quot;</span><span class="o">:</span> <span class="s2">&quot;loss&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;selected_mode&quot;</span><span class="o">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;num_gpus&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;select_by_eval&quot;</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;patience&quot;</span><span class="o">:</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="s2">&quot;pre_train_epoch&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1">//The number of epochs trained in each group of parameters in Hyperparameter search phase</span>
+        <span class="s2">&quot;max_steps&quot;</span><span class="o">:</span> <span class="mi">64000</span>  <span class="c1">//Maximum running steps to train. When the patience is large, the max_steps steps will be trained. Max_steps * batch_size / num_samples is the number of epochs corresponding to the training.</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;optimizer&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;adam&quot;</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;predictor&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;log_every_n_steps&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;output_every_n_steps&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;max_number_of_steps&quot;</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="s2">&quot;batch_size&quot;</span><span class="o">:</span> <span class="mi">64</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;param_spec&quot;</span><span class="o">:</span> <span class="p">{</span>   <span class="c1">//Initial parameters</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;origin_params&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;args&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;VAE&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;keep_prob&quot;</span><span class="o">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;start_size&quot;</span><span class="o">:</span> <span class="mi">1024</span><span class="p">,</span>
+                <span class="s2">&quot;decay_ratio_list&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;optimizer_param&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;learning_rate&quot;</span><span class="o">:</span> <span class="mf">0.01</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;hyper_param_spec&quot;</span><span class="o">:</span> <span class="p">{</span>   <span class="c1">//Hyperparameter search space</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;hyper_params&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;args&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;VAE&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;keep_prob&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+                <span class="s2">&quot;start_size&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span>
+                <span class="s2">&quot;num_layers&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                <span class="s2">&quot;decay_ratio&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;optimizer_param&quot;</span><span class="o">:</span> <span class="p">{</span>
+
+            <span class="p">}</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-by-step">
+<h2>Step by step<a class="headerlink" href="#step-by-step" title="永久链接至标题">¶</a></h2>
+<p>The use of AutoGenome mainly includes the following steps:</p>
+<ol>
+<li><p class="first">import autogenome</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">autogenome</span> <span class="k">as</span> <span class="nn">ag</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Read the configuration file, as shown above</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span> <span class="o">=</span> <span class="n">ag</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;/data_autogenome/data_test/json_hub_simple/densenet_test.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After the configuration file is successfully read, the following log is printed:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>==========================================================
+----------Use the config from /data_autogenome/data_test/json_hub_simple/resvae_test.json
+----------Initialize data_loader class
+----------Initialize Optimizer
+----------Initialize hyper_param_spec class 
+----------Initialize param_spec class 
+==========================================================
+#################################################################################
+#                                                                               #
+#                                                                               #
+         Ready to search the best hyper parameters for VAE model            
+#                                                                               #
+#                                                                               #
+#################################################################################
+</pre></div>
+</div>
+</li>
+<li><p class="first">Train the model. Model training is performed according to the training parameters in the configuration file, and the data set is divided into training sets: validation set in ratio of 8: 2. the training set data is used for training, and the validation set data is evaluated at the same time. Better models and parameters are saved to the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder in the corresponding folder (trainer.saver:” ./experiments “)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>During training, the model is initialized to the parameters in <code class="docutils literal notranslate"><span class="pre">param_spec</span></code>, and then the parameter search is performed in the hyperparameter search space<code class="docutils literal notranslate"> <span class="pre">hyper_param_spec</span></code>. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyperparameter search final model structure parameters  is sured. The final model will be trained, when the results are better, the model parameters are saved, and it will stop train when the effect on the validation set is not improved after several consecutive epochs (trainer.patience).</p>
+<p>Some logs during training are as follows:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Hyper</span> <span class="o">&amp;</span> <span class="nx">Training</span> <span class="nx">Search</span> <span class="nx">stage</span>
+<span class="p">...</span>
+<span class="nx">Pretraining</span><span class="o">:</span> <span class="nx">search</span> <span class="nx">parameter</span> <span class="nx">is</span> <span class="nx">decay_ratio_list</span><span class="p">,</span> <span class="nx">search</span> <span class="nx">value</span> <span class="nx">is</span> <span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+<span class="nx">LR_RANGE_TEST</span> <span class="nx">From</span> <span class="nx">begin_lr</span> <span class="mf">0.000010</span> <span class="nx">To</span> <span class="nx">end_lr</span> <span class="mf">0.100000</span><span class="p">,</span> 
+<span class="nx">Graph</span> <span class="nx">was</span> <span class="nx">finalized</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Done</span> <span class="nx">running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">From</span> <span class="o">/</span><span class="nx">opt</span><span class="o">/</span><span class="nx">conda</span><span class="o">/</span><span class="nx">envs</span><span class="o">/</span><span class="nx">py2</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="nx">python2</span><span class="mf">.7</span><span class="o">/</span><span class="nx">site</span><span class="o">-</span><span class="nx">packages</span><span class="o">/</span><span class="nx">tensorflow</span><span class="o">/</span><span class="nx">python</span><span class="o">/</span><span class="nx">training</span><span class="o">/</span><span class="nx">monitored_session</span><span class="p">.</span><span class="nx">py</span><span class="o">:</span><span class="mi">804</span><span class="o">:</span> <span class="nx">start_queue_runners</span> <span class="p">(</span><span class="nx">from</span> <span class="nx">tensorflow</span><span class="p">.</span><span class="nx">python</span><span class="p">.</span><span class="nx">training</span><span class="p">.</span><span class="nx">queue_runner_impl</span><span class="p">)</span> <span class="nx">is</span> <span class="nx">deprecated</span> <span class="nx">and</span> <span class="nx">will</span> <span class="nx">be</span> <span class="nx">removed</span> <span class="k">in</span> <span class="nx">a</span> <span class="nx">future</span> <span class="nx">version</span><span class="p">.</span>
+<span class="nx">Instructions</span> <span class="k">for</span> <span class="nx">updating</span><span class="o">:</span>
+<span class="nx">To</span> <span class="nx">construct</span> <span class="nx">input</span> <span class="nx">pipelines</span><span class="p">,</span> <span class="nx">use</span> <span class="nx">the</span> <span class="sb">`tf.data`</span> <span class="nx">module</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">will</span> <span class="nx">end</span> <span class="nx">at</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">200</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">1.066</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.500</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.491</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.009</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">10</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">10</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.948</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">4.740</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">4.730</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.009</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">20</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">20</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.905</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">4.479</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">4.469</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">30</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">30</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.958</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">4.194</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">4.184</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">40</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">40</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.937</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">5.517</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">5.507</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">50</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">50</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.972</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">5.426</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">5.417</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">60</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">60</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">5.000</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">5.974</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">5.964</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">70</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">70</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.952</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">5.954</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">5.944</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">80</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">80</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.978</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">5.019</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">5.009</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">90</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">90</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.970</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">7.211</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">7.201</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">100</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">100</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.895</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.998</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.988</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.010</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">110</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">110</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.945</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.677</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.666</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">120</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">120</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.986</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.008</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">5.997</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">130</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">130</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.887</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.592</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.582</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">140</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">140</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.960</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">7.500</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">7.489</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">150</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">150</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.953</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">7.281</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">7.271</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">160</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">160</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.930</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.914</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.904</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">170</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">170</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.935</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">7.423</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">7.412</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">180</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">180</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.948</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">7.145</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">7.134</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">190</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">190</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">4.943</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.629</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.619</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.011</span>
+<span class="p">...</span>
+<span class="nx">The</span> <span class="nx">model</span> <span class="nx">and</span> <span class="nx">events</span> <span class="nx">are</span> <span class="nx">saved</span> <span class="k">in</span> <span class="nx">data_autogenome</span><span class="o">/</span><span class="nx">data_test</span><span class="o">/</span><span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">res_vae_demo</span><span class="o">/</span><span class="mi">1105</span><span class="nx">_013120</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.017883212500000002</span><span class="nx">_decay_ratio_list_</span><span class="p">(</span><span class="mf">0.60.60.6</span><span class="p">)</span><span class="nx">_start_size_256_keep_prob_1</span><span class="mf">.0</span>
+<span class="nx">Graph</span> <span class="nx">was</span> <span class="nx">finalized</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Done</span> <span class="nx">running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Running</span> <span class="nx">will</span> <span class="nx">end</span> <span class="nx">at</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">64000</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">0</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">2.123</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.988</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.987</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.001</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">5</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">5</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">10.490</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.911</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.910</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.001</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">10</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">10</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">36.250</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">6.771</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">6.770</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.001</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">15</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">15</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">20.972</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">4.897</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">4.896</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.001</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">20</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">20</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">28.025</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">3.996</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">3.995</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.001</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">25</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">25</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">77.930</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">2.605</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">2.604</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.001</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">30</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">30</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">77.654</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">2.056</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">2.056</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.000</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">35</span><span class="p">(</span><span class="nx">global</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">35</span><span class="p">)</span>	<span class="nx">sample</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">77.751</span>	<span class="nx">loss</span><span class="o">:</span> <span class="mf">1.682</span>	<span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">1.681</span>	<span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">0.001</span>
+<span class="p">[</span><span class="nx">Plateau</span> <span class="nx">Metric</span><span class="p">]</span> <span class="nx">step</span><span class="o">:</span> <span class="mi">39</span> <span class="nx">loss</span><span class="o">:</span> <span class="mf">1700371756103124513701494784.000</span> <span class="nx">reconstruct_loss</span><span class="o">:</span> <span class="mf">1696594689330963519620775936.000</span> <span class="nx">KLD_loss</span><span class="o">:</span> <span class="mf">3777113350190000207036416.000</span>
+<span class="nx">Saving</span> <span class="nx">checkpoints</span> <span class="k">for</span> <span class="mi">40</span> <span class="nx">into</span> <span class="nx">data_autogenome</span><span class="o">/</span><span class="nx">data_test</span><span class="o">/</span><span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">res_vae_demo</span><span class="o">/</span><span class="mi">1105</span><span class="nx">_013120</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.017883212500000002</span><span class="nx">_decay_ratio_list_</span><span class="p">(</span><span class="mf">0.60.60.6</span><span class="p">)</span><span class="nx">_start_size_256_keep_prob_1</span><span class="mf">.0</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="p">.</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Prediction. According to the model structure and model parameters trained in step 3, for a given features data, the <code class="docutils literal notranslate"><span class="pre">latent</span> <span class="pre">vector</span></code>and<code class="docutils literal notranslate"><span class="pre">reconstruction</span> <span class="pre">data</span></code> will be saved.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Some logs are as follows:：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Prediction</span> <span class="nx">stage</span> 
+<span class="nx">Restoring</span> <span class="nx">parameters</span> <span class="nx">from</span> <span class="nx">data_autogenome</span><span class="o">/</span><span class="nx">data_test</span><span class="o">/</span><span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">res_vae_demo</span><span class="o">/</span><span class="mi">1105</span><span class="nx">_013120</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.017883212500000002</span><span class="nx">_decay_ratio_list_</span><span class="p">(</span><span class="mf">0.60.60.6</span><span class="p">)</span><span class="nx">_start_size_256_keep_prob_1</span><span class="mf">.0</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="o">-</span><span class="mi">1040</span>
+<span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">Done</span> <span class="nx">running</span> <span class="nx">local_init_op</span><span class="p">.</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">9</span>	<span class="nx">batch</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">69.090</span>
+<span class="nx">step</span><span class="o">:</span> <span class="mi">19</span>	<span class="nx">batch</span><span class="o">/</span><span class="nx">sec</span><span class="o">:</span> <span class="mf">69.454</span>
+	<span class="p">[</span><span class="mi">20</span> <span class="nx">batches</span><span class="p">]</span>
+<span class="nx">latent_vector</span> <span class="nx">and</span> <span class="nx">reconstruction</span> <span class="nx">x</span>  <span class="nx">values</span> <span class="nx">file</span> <span class="nx">is</span><span class="o">:</span> <span class="s2">&quot;data_autogenome/data_test/experiments/output_files/res_vae_demo/1105_013120/res_vae_predicted_latent_vector_data_frame.csv&quot;</span> <span class="nx">and</span> <span class="s2">&quot;data_autogenome/data_test/experiments/output_files/res_vae_demo/1105_013120/res_vae_predicted_recon_x_data_frame.csv&quot;</span>
+</pre></div>
+</div>
+<p>The obtained latent vector data can be further clustered and compared with other methods, as shown below:</p>
+<p><img alt="../_images/vae_vs.PNG" src="../_images/vae_vs.PNG" /></p>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="TODO.html" class="btn btn-neutral float-right" title="TODO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Example_of_ENAS.html" class="btn btn-neutral float-left" title="Example of ENAS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Huawei
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
