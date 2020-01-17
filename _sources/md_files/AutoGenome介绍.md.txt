@@ -14,9 +14,15 @@ AutoGenome是一个利用AutoML等技术帮助科研工作者在基因组学数�
 
 - 针对基因组学的数据，MLP（Multilayer Perceptron）结构引起简单灵活的特点常常被使用。AutoGenome有MLP网络结构的搜索策略，通过设定网络层数以及隐藏层神经元个数的搜索空间，通过MoXing的超参搜索方法，根据候选网络结构的表现选出最优的网络结构。
 
+  
+
 - 受ResNet和DenseNet的启发，AutoGenome将跳跃连接引入到基因组学数据中。根据AutoML中CASH的想法（Combined Algorithm Selection and Hyperparameter optimization）把模型选择和超参调优合并为同一个问题，把ResNet和Densenet网络的网络结构通过超参搜索的方式来进行选择，从而可以针对不同的数据选出较优的网络结构。
 
+  
+
 - MLP、ResNet和DenseNet都是基于网络结构的一定先验知识，并且搜索空间仅限于超参搜索中Grid Search的方式；为了使得搜索空间具有更强的灵活性，AutoGenome引入了ENAS（Efficient Neural Architecture Search）。ENAS是NAS的一种，因其创新地把网络结构的参数进行了共享使得，神经网络结构搜索的效率大大得到提升，克服了NAS算力成本巨大而耗时的缺陷。NAS通过强化学习的策略，通过优化策略优化产生子模型结构的控制器模型-LSTM。LSTM模型能够根据预先设定的子模型的网络层数，生成子模型的每一层的大小，以及其中的跳跃了解情况。传统的ENAS结构采用的候选算子常常包括各种卷积等操作，AutoGenome将算子简化为全连接操作，使其能适用于基因组学的数据。
+
+  
 
 - MLP，ResNet， DenseNet 和 ENAS  都是属于监督学习的领域，并且能应用于回归和分类的问题。但除此之外，在生物基因领域，由于数据的维度高，降维等非监督学习也经常被使用。因此AutoGenome在传统VAE的基础上，通过添加跳跃连接，实现了残差全连接VAE网络（residual fully-connected variational auto-encoder， Res-VAE）。在传统的VAE体系中, 编码器通过减少后面每层网络神经元的数量将输入压缩为较小维度的隐变量，解码器从隐变量出发通过增加每层神经元数量的方式重建输入数据。 Res-VAE在编码器和解码器上都添加了跳跃连接，使得网络结构更加多变和灵活。通过最小化重建误差和Kullback-Leibler散度（KLD）误差的总和，Res-VAE从原始数据中学习数据的本质特征，而这些特征存储在隐变量里面，从而实现了降维的目的，也可以用于后续进一步分析。
 

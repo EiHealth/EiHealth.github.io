@@ -1,0 +1,280 @@
+# Example of RRFCN
+
+RRFCN case uses a binary classification task as an example. The `features` data` little_exp.tsv` contains 100 samples and 23361 features. It may taks around ~5 minutes to finish this case.
+
+```bash
+> wc little_exp.tsv | awk '{print $1}'  # rows
+100
+> sed -n '1,1p' little_exp.tsv | awk '{print NF}'  # columns
+23361
+```
+
+`target` data are of two types, 70 and 30 respectively.
+
+```bash
+> grep -c 0 little_learning_target.tsv
+70
+> grep -c 1 little_learning_target.tsv
+30
+```
+
+
+
+First, prepare the configuration file, as shown below:
+
+## config.json  in use
+
+```javascript
+{
+    "name": "enas_demo",     // Project name
+
+    "model": {
+        "type": "enas",
+        "args": {
+            "output_classes": 2}   // Number of classes
+    },
+
+    "data_train": {
+        "type": "DataLoader",
+        "args":{
+            "data_dir": "/data_autogenome/data_test",  //The folder where the data is located, it is recommended to use an absolute path
+            "features_file": "little_exp.tsv",       //File of features
+            "labels_file": "little_learning_target.tsv",   //tFile of target
+            "validation_split": 0.2,   //Validation set ratio
+            "shuffle": true,   //Whether to shuffle the data during training
+            "delimiter": " "   //Delimiter in data, default: '\t'
+        }
+    },
+
+    "data_evaluate": {
+        "type": "DataLoader",
+        "args": {
+            "data_dir": "./data_autogenome/data_test",
+            "features_file": "little_exp.tsv",    //File for evaluation
+            "labels_file": "little_learning_target.tsv",   //target for evaluation
+            "delimiter": " "
+        }
+    },
+
+    "data_predict": {
+        "type": "DataLoader",
+        "args": {
+            "data_dir": "./data_autogenome/data_test",
+            "features_file": "little_exp.tsv",    ///File for prediction
+            "delimiter": " "
+        }
+    },
+
+    "input_fn": {
+        "num_threads": 16   //Number of threads for reading data
+    },
+
+    "trainer": {
+        "child_num_layers": 3,     //  The size of layers of child model.And size of the first layer will be fixed in enas,the maximum search space of the subsequent layers is the size of the first layer, that is, max_search_channel.
+        "batch_size": 64,     
+        "max_number_of_epoches_in_search": 10,  //The number of epochs to search in Hyperparameter search phase
+        "max_number_of_epoches_in_fixed": 50,   //The number of epochs to search in train phase
+        "top_k_candidates": 2,   //How many candidate networks to train after the search is finished,> = 2
+        "child_l2_reg": 1e-4,   //For Regularization in l2 loss
+        "max_search_channel": 512,    //The size of the first layer of the network, which is also the upper limit of the network search space
+        "save_dir": "/experiments/"  //Name of the folder where logs, model parameters, and results are saved
+    },
+
+    "evaluator": {
+        "max_number_of_steps": 10,
+        "batch_size":100
+    },
+
+    "predictor": {
+        "max_number_of_steps": 10,
+        "batch_size":100
+    },
+
+    "explainer": {
+        "args": {
+            "plot_type": "bar",
+            "features_name_file": "/data_autogenome/data_test/names_2.txt",  //File of feature name ，one column，rows are equall to the number of features
+            "num_samples": 80,
+            "ranked_outputs": 20
+        }
+    }
+}
+
+```
+
+
+
+## Step by step
+
+The utilization of AutoGenome mainly includes the following steps:
+
+1. import autogenome
+
+   ```python
+   import autogenome as ag
+   ```
+
+2. Load the configuration file, as shown above
+
+   ```python
+   automl = ag.auto("/data_autogenome/data_test/json_hub_simple/enas_test.json")
+   ```
+
+   After the configuration file is successfully read, the following log will be printed:
+
+   ```javascript
+   ==========================================================
+   ----------Use the config from ./data_autogenome/data_test/json_hub_simple/enas_test.json
+   ----------Initialize enas class
+   ----------Initialize data_loader class
+   ==========================================================
+   #################################################################################
+   #                                                                               #
+   #                                                                               #
+            Ready to search the best neural arch for enas model            
+   #                                                                               #
+   #                                                                               #
+   #################################################################################
+   ```
+   
+   
+
+3. Train the model. Model training is performed according to the parameters in the configuration file. Data set is divided into training set : validation set in ratio of 8: 2. The training set data is used for training, and the validation set data is used for the evaluation performance of temporary searched model in real-time. High performance models and parameters are saved to the `models` folder in the corresponding folder (trainer.saver:" ./experiments ")
+
+   ```python
+   automl.train()
+   ```
+
+   ENAS first performs a network structure search, searching for `trainer.max_number_of_epoches_in_search` number of epoches. After this process, selects the best` trainer.top_k_candidates` network structure, and separately trains `trainer.max_number_of_epoches_in_fixed` number of epoches.
+
+   Part of the logs during the training process are as follows:
+
+   ```javascript
+   ----------In Hyper & Training Search stage
+   ...
+   Running will end at step: 20
+   step: 0(global step: 0)	sample/sec: 21.559	acc: 0.641	epoch: 0.000	l2 loss: 1.127	ch_step: 0.000	child loss: 1.779
+   ('[3 0 1 2 1 1]', 0.265625)
+   ('[0 4 1 2 0 1]', 0.375)
+   ('[4 4 1 4 1 1]', 0.25)
+   ('[4 0 1 0 1 1]', 0.28125)
+   ...
+   ('[0 2 0 3 0 0]', 0.328125)
+   ('[1 0 0 3 0 1]', 0.265625)
+   ('[0 3 0 2 0 0]', 0.296875)
+   ('[3 1 0 2 0 1]', 0.28125)
+   step: 10(global step: 10)	sample/sec: 801.774	acc: 0.938	epoch: 5.000	l2 loss: 1.142	ch_step: 0.000	child loss: 1.275
+   ...
+   enas train time : 0.30       minutes.
+   
+   training [2 4 0 0 0 0]
+   Saving checkpoints for 0 into experiments/enas/models/enas_demo/1225_103754/1/model.ckpt.
+   
+   Running will end at step: 100
+   step: 0(global step: 0)	sample/sec: 45.455	train_acc: 0.641	child l2 loss:: 0.230	child loss:: 0.784
+   {'valid_acc': 0.734375}, 0
+   old: 0, new: 0.734375
+   [VALIDATION METRICS] step: 1 valid_acc: 0.734
+   Saving checkpoints for 2 into experiments/enas/models/enas_demo/1225_103754/1_1/best_model.ckpt.
+   {'valid_acc': 0.625}, 0.734375
+   [VALIDATION METRICS] step: 3 valid_acc: 0.625
+   ...
+   training [1 4 0 1 1 0]
+   ...
+   training arc: [1 4 0 1 1 0], valid_acc: 1.0
+   Best arc:[1 4 0 1 1 0], eval_acc:1.0, max_k:2
+   ```
+
+   The log will print the candidate network structure, the best accuracy achieved during training and the corresponding network structure.
+
+4. Evaluation. Evaluate the performance of final model on data specified on `data_evaluate`. Classification task model will output the accuracy and the confusion matrix.
+
+   ```python
+   automl.evaluate()
+   ```
+
+   Part of logs are as follows:
+
+   ```javascript
+   ----------In Evaluation stage
+   Restoring parameters from experiments/enas/models/enas_demo/1225_103754/2_1/best_model.ckpt-54
+   Running local_init_op.
+   Done running local_init_op.
+   step: 1	batch/sec: 57.737	valid_acc: 1.000
+   step: 3	batch/sec: 53.513	valid_acc: 1.000
+   step: 5	batch/sec: 63.091	valid_acc: 1.000
+   step: 7	batch/sec: 57.627	valid_acc: 1.000
+   step: 9	batch/sec: 63.674	valid_acc: 1.000
+   valid_acc: 1.0		[10 batches]
+   Confusion matrix plot is 'experiments/enas/output_files/enas_demo/1225_103754/enas_confusion_matrix.pdf'
+   ```
+
+   The confusion matrix is shown below. Size of the figure will ajust to the number of categories. The x-axis are true labels and the y-axis are the predicted labels.
+
+   <img src="../images/enas_confusion_matrix.png" style="zoom:75%;" />
+
+   
+
+5. Prediction. Given input sample data, predict categories based on the final model trained in step 3. The category and softmax value of each sample will be saved in a csv file.
+
+   ```python
+   automl.predict()
+   ```
+
+   Some logs are as follows:
+
+   ```javascript
+   ----------In Prediction stage 
+   Restoring parameters from experiments/enas/models/enas_demo/1225_103754/2_1/best_model.ckpt-54
+   Running local_init_op.
+   Done running local_init_op.
+   step: 9	batch/sec: 63.824
+   	[10 batches]
+   Predicted values file is "experiments/enas/output_files/enas_demo/1225_103754/enas_predicted_result_data_frame.csv"
+   ```
+
+   As shown in the log, the predicted csv file will be produced and saved. The first column of the file is `predicted_result`, and the second column of `softmax_value` is the softmax value of each sample.
+
+6. Explanation. Rank the importance of the features according to the final model trained in step 3 . The file corresponding to the variable name needs to be specified in the `explainer`.
+
+   ```python
+   automl.explain()
+   ```
+
+   Rank the importance of the model variables, and the log is as follows:
+
+   ```javascript
+   ----------Initialize Shap class
+   Restoring parameters from experiments/enas/models/enas_demo/1225_103754/2_1/best_model.ckpt-54
+   ----------Computing shap_values with 80  examples and 23361 features
+   importance plot is 'experiments/enas/output_files/enas_demo/1225_103754/_dot0_feature_importance_summary.pdf'
+   importance plot is 'experiments/enas/output_files/enas_demo/1225_103754/_dot1_feature_importance_summary.pdf'
+   features orders in all classes is saved in 'experiments/enas/output_files/enas_demo/1225_103754/_features_orders.csv'
+   importance plot for every classes is 'experiments/enas/output_files/enas_demo/1225_103754/class_1feature_importance_summary.pdf'
+   importance plot for every classes is 'experiments/enas/output_files/enas_demo/1225_103754/class_0feature_importance_summary.pdf'
+   importance plot is 'experiments/enas/output_files/enas_demo/1225_103754/_barTotal_feature_importance_summary.pdf'
+   shap_values every classes is 'experiments/enas/output_files/enas_demo/1225_103754/_class_0shap_values.csv'
+   shap_values every classes is 'experiments/enas/output_files/enas_demo/1225_103754/_class_1shap_values.csv'
+   ```
+
+   Variable importance bar charts and dot charts and total variable importance charts for each sample are produced, as shown below:
+
+   Importance map for all variable：
+
+   ![](../images/enas_total_feature_importance_summary.png)
+
+   Features importance bar plot for class1:
+
+   ![](../images/enas_class1_feature_importance_summary_bar.png)
+
+   Features importance bar plot for class0:
+
+   ![](../images/enas_class0_feature_importance_summary_bar.png)
+
+   Features importance dot plot for class1:
+
+   ![](../images/enas_class1_feature_importance_summary_dot.png)
+
+   Features importance dot plot for class0:
+
+   ![](../images/enas_class0_feature_importance_summary_dot.png)

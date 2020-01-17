@@ -7,7 +7,7 @@
 
 Res-VAE案例以`little_exp.tsv`数据为例，`features`数据`little_exp.tsv`包含100个samples，23361个features。对该数据进行Res-VAE，提取其关键特征进行降维，输出latent vector可用于进一步聚类分析。
 
-<img src="..\images\vae.png" style="zoom:75%;" />
+![](../images/vae.png)
 
 ```bash
 > wc little_exp.tsv | awk '{print $1}'  # 打印行数

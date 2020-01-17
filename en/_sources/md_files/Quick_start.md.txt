@@ -7,12 +7,13 @@
 conda env create -f env.yml
 conda activate autogenome
 
-#get and install autogenome package
-wget "http://*****"
+#get example data and install autogenome package
+wget  https://github.com/EiHealth/EiHealth.github.io/blob/master/data/little_exp.tsv --no-check-certificate 
+wget  https://github.com/EiHealth/EiHealth.github.io/blob/master/data/little_learning_target.tsv --no-check-certificate 
 pip install autogenome*.whl
 ```
 
-## Step by step
+## Step by step Running
 
 ```python
 import autogenome as ag

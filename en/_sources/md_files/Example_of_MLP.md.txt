@@ -1,11 +1,6 @@
 # Example of MLP
 
-- [config.json in use](##config.json in use)
-- [Step by step](##Step by step)
-
-
-
-MLP case uses a binary classification task as an example. The `features` data` little_exp.tsv` contains 100 samples and 23361 features.
+MLP case uses a binary classification task as an example. The `features` data` little_exp.tsv` contains 100 samples and 23361 features. It may taks around ~5 minutes to finish this case.
 
 ```bash
 > wc little_exp.tsv | awk '{print $1}'  # rows
@@ -156,7 +151,7 @@ The use of AutoGenome mainly includes the following steps:
    import autogenome as ag
    ```
 
-2. Read the configuration file, as shown above
+2. Load  the configuration file, as shown above
 
    ```python
    automl = ag.auto("/data_autogenome/data_test/json_hub_simple/densenet_test.json")
@@ -184,15 +179,15 @@ The use of AutoGenome mainly includes the following steps:
 
    
 
-3. Train the model. Model training is performed according to the training parameters in the configuration file, and the data set is divided into training sets: validation set in ratio of 8: 2. the training set data is used for training, and the validation set data is evaluated at the same time. Better models and parameters are saved to the `models` folder in the corresponding folder (trainer.saver:" ./experiments ")
+3. Train the model. Model training is performed according to the parameters in the configuration file. Data set is divided into training set : validation set in ratio of 8: 2. The training set data is used for training, and the validation set data is used for the evaluation performance of temporary searched model in real-time. High performance models and parameters are saved to the `models` folder in the corresponding folder (trainer.saver:" ./experiments ")
 
    ```python
    automl.train()
    ```
 
-   During training, the model is initialized to the parameters in `param_spec`, and then the parameter search is performed in the hyperparameter search space` hyper_param_spec`. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyperparameter search final model structure parameters  is sured. The final model will be trained, when the results are better, the model parameters are saved, and it will stop train when the effect on the validation set is not improved after several consecutive epochs (trainer.patience).
+   During training, the model is initialized to the parameters in `param_spec`, and then the parameter search is performed in the hyper-parameter search space` hyper_param_spec`. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyper-parameter search, parameters of the final model  is fixed. And then the final model will be trained again, to achieve a higher performance. The parameters of the final model are saved for further load.
 
-   Some logs during training are as follows:
+   Parts of logs during training are as follows:
 
    ```javascript
    ----------In Hyper & Training Search stage
@@ -229,13 +224,13 @@ The use of AutoGenome mainly includes the following steps:
 
    
 
-4. Evaluation. According to the model structure and model parameters trained in the previous step, evaluate the performance on `data_evaluate`. The classification model will print the accuracy value and the confusion matrix.
+4. Evaluation. Evaluate the performance of final model on data specified on `data_evaluate`. Classification task model will output the accuracy and the confusion matrix.
 
    ```python
    automl.evaluate()
    ```
 
-   Some logs are as follows:
+   Parts of logs are as follows:
 
    ```javascript
    ----------In Evaluation stage
@@ -246,19 +241,19 @@ The use of AutoGenome mainly includes the following steps:
    Confusion matrix plot is 'experiments/output_files/mlp_demo/1225_113835/MLP_confusion_matrix.pdf'
    ```
    
-   The resulting confusion matrix is shown below. The size of the figure will be adjusted according to the number of categories. The x-axis is true value and the y-axis is the predicted value.
+   The  confusion matrix is shown below. Size of the figure will adjust to the number of categories. The x-axis is true label and the y-axis is the predicted label.
    
    ![](../images/mlp_confusion_matrix.png)
    
 
    
-5. Prediction. According to the model structure and model parameters trained in step 3, for a given features data, the classification model predicts its category and the softmax value of each category, and will be saved as csv file.
+5. Prediction. Given input sample data, predict categories based on the final model trained in step 3. The category and softmax value of each sample will be saved in a csv file.
 
    ```python
    automl.predict()
    ```
 
-   Some logs are as follows:
+   Part of logs are as follows:
 
    ```javascript
    ----------In Prediction stage 
@@ -269,15 +264,15 @@ The use of AutoGenome mainly includes the following steps:
    Predicted values file is "experiments/output_files/mlp_demo/1225_113835/MLP_predicted_result_data_frame.csv"
    ```
 
-   As shown in the log, the predicted target file will be produced. The first column of the file is `predicted_result`, and the second column of `softmax_value` is the softmax value of each category.
+   As shown in the log, the predicted csv file will be produced and saved. The first column of the file is `predicted_result`, and the second column of `softmax_value` is the softmax value of each sample.
 
-6. Explanation. Sort the importance of the variables according to the model trained in step 3. The file corresponding to the variable name needs to be specified in the `explainer`.
+6. Explanation. Rank the importance of the features according to the final model trained in step 3 . The file corresponding to the variable name needs to be specified in the `explainer`.
 
    ```python
    automl.explain()
    ```
 
-   Sort the importance of the model variables, and the log is as follows:
+   Rank the importance of the model variables, and the log is as follows:
 
    ```javascript
    ----------Initialize Shap class

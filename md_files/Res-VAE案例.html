@@ -37,7 +37,7 @@
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
     <link rel="next" title="TODO" href="TODO.html" />
-    <link rel="prev" title="ENAS案例" href="ENAS案例.html" /> 
+    <link rel="prev" title="RRFCN（ENAS的变体）案例" href="RRFCN案例.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,9 +87,9 @@
 <li class="toctree-l1"><a class="reference internal" href="快速开始.html">快速开始</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Config文件配置详解.html">Config文件配置详解</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MLP案例.html">MLP案例</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ResNet案例.html">ResNet案例</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DenseNet案例.html">DenseNet案例</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ENAS案例.html">ENAS案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RFCN-ResNet案例.html">RFCN-ResNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RFCN-DenseNet案例.html">RFCN-DenseNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RRFCN案例.html">RRFCN（ENAS的变体）案例</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Res-VAE案例</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">配置文件</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">使用</a></li>
@@ -166,11 +166,12 @@
   <div class="section" id="res-vae">
 <h1>Res-VAE案例<a class="headerlink" href="#res-vae" title="永久链接至标题">¶</a></h1>
 <ul class="simple">
-<li><a class="reference external" href="##%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">配置文件</a></li>
-<li><a class="reference external" href="##%E4%BD%BF%E7%94%A8">使用</a></li>
+<li><p><a class="reference external" href="##%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">配置文件</a></p></li>
+<li><p><a class="reference external" href="##%E4%BD%BF%E7%94%A8">使用</a></p></li>
 </ul>
 <p>Res-VAE案例以<code class="docutils literal notranslate"><span class="pre">little_exp.tsv</span></code>数据为例，<code class="docutils literal notranslate"><span class="pre">features</span></code>数据<code class="docutils literal notranslate"><span class="pre">little_exp.tsv</span></code>包含100个samples，23361个features。对该数据进行Res-VAE，提取其关键特征进行降维，输出latent vector可用于进一步聚类分析。</p>
-<img src="..\images\vae.png" style="zoom:75%;" /><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; wc little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span>  <span class="c1"># 打印行数</span>
+<p><img alt="../_images/vae.png" src="../_images/vae.png" /></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; wc little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span>  <span class="c1"># 打印行数</span>
 <span class="m">100</span>
 &gt; sed -n <span class="s1">&#39;1,1p&#39;</span> little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print NF}&#39;</span>  <span class="c1"># 打印列数</span>
 <span class="m">23361</span>
@@ -270,12 +271,12 @@
 <h2>使用<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
 <p>AutoGenome的使用主要包含以下几步：</p>
 <ol>
-<li><p class="first">导入autogenome包</p>
+<li><p>导入autogenome包</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">autogenome</span> <span class="k">as</span> <span class="nn">ag</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">读取配置文件，配置文件如上述所示</p>
+<li><p>读取配置文件，配置文件如上述所示</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span> <span class="o">=</span> <span class="n">ag</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;/data_autogenome/data_test/json_hub_simple/densenet_test.json&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -297,7 +298,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">训练模型。根据配置文件中训练参数进行模型训练，将数据集划分为训练集:验证集为8:2，使用训练集数据进行训练，同时可选择是否在验证集数据上进行评估，保存在评价指标（trainer.monitor: “loss”）更小的模型和参数到相应文件夹（trainer.saver: “./experiments”）中的<code class="docutils literal notranslate"><span class="pre">models</span></code>文件夹中</p>
+<li><p>训练模型。根据配置文件中训练参数进行模型训练，将数据集划分为训练集:验证集为8:2，使用训练集数据进行训练，同时可选择是否在验证集数据上进行评估，保存在评价指标（trainer.monitor: “loss”）更小的模型和参数到相应文件夹（trainer.saver: “./experiments”）中的<code class="docutils literal notranslate"><span class="pre">models</span></code>文件夹中</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -354,7 +355,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">预测数据。根据第3步所训练的模型结构及模型参数，对于给定features数据，输出<code class="docutils literal notranslate"><span class="pre">latent</span> <span class="pre">vector</span></code>和<code class="docutils literal notranslate"><span class="pre">reconstruction</span> <span class="pre">data</span></code>数据</p>
+<li><p>预测数据。根据第3步所训练的模型结构及模型参数，对于给定features数据，输出<code class="docutils literal notranslate"><span class="pre">latent</span> <span class="pre">vector</span></code>和<code class="docutils literal notranslate"><span class="pre">reconstruction</span> <span class="pre">data</span></code>数据</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -387,7 +388,7 @@
         <a href="TODO.html" class="btn btn-neutral float-right" title="TODO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ENAS案例.html" class="btn btn-neutral float-left" title="ENAS案例" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="RRFCN案例.html" class="btn btn-neutral float-left" title="RRFCN（ENAS的变体）案例" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

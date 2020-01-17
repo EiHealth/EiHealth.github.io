@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
-    <link rel="next" title="Example of ResNet" href="Example_of_ResNet.html" />
+    <link rel="next" title="Example of RFCN-ResNet" href="Example_of_RFCN-ResNet.html" />
     <link rel="prev" title="Introduction of config.json" href="Instructions_of_Config.html" /> 
 </head>
 
@@ -91,9 +91,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#step-by-step">Step by step</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Example_of_ResNet.html">Example of ResNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example_of_DenseNet.html">Example of DenseNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example_of_ENAS.html">Example of ENAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RFCN-ResNet.html">Example of RFCN-ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RFCN-DenseNet.html">Example of RFCN-DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RRFCN.html">Example of RRFCN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example_of_Res-VAE.html">Example of  Res-VAE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
@@ -165,11 +165,7 @@
             
   <div class="section" id="example-of-mlp">
 <h1>Example of MLP<a class="headerlink" href="#example-of-mlp" title="永久链接至标题">¶</a></h1>
-<ul class="simple">
-<li>config.json in use</li>
-<li>Step by step</li>
-</ul>
-<p>MLP case uses a binary classification task as an example. The <code class="docutils literal notranslate"><span class="pre">features</span></code> data<code class="docutils literal notranslate"> <span class="pre">little_exp.tsv</span></code> contains 100 samples and 23361 features.</p>
+<p>MLP case uses a binary classification task as an example. The <code class="docutils literal notranslate"><span class="pre">features</span></code> data<code class="docutils literal notranslate"> <span class="pre">little_exp.tsv</span></code> contains 100 samples and 23361 features. It may taks around ~5 minutes to finish this case.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; wc little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span>  <span class="c1"># rows</span>
 <span class="m">100</span>
 &gt; sed -n <span class="s1">&#39;1,1p&#39;</span> little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print NF}&#39;</span>  <span class="c1"># columns</span>
@@ -304,12 +300,12 @@
 <h2>Step by step<a class="headerlink" href="#step-by-step" title="永久链接至标题">¶</a></h2>
 <p>The use of AutoGenome mainly includes the following steps:</p>
 <ol>
-<li><p class="first">import autogenome</p>
+<li><p>import autogenome</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">autogenome</span> <span class="k">as</span> <span class="nn">ag</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Read the configuration file, as shown above</p>
+<li><p>Load  the configuration file, as shown above</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span> <span class="o">=</span> <span class="n">ag</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;/data_autogenome/data_test/json_hub_simple/densenet_test.json&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -332,12 +328,12 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Train the model. Model training is performed according to the training parameters in the configuration file, and the data set is divided into training sets: validation set in ratio of 8: 2. the training set data is used for training, and the validation set data is evaluated at the same time. Better models and parameters are saved to the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder in the corresponding folder (trainer.saver:” ./experiments “)</p>
+<li><p>Train the model. Model training is performed according to the parameters in the configuration file. Data set is divided into training set : validation set in ratio of 8: 2. The training set data is used for training, and the validation set data is used for the evaluation performance of temporary searched model in real-time. High performance models and parameters are saved to the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder in the corresponding folder (trainer.saver:” ./experiments “)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>During training, the model is initialized to the parameters in <code class="docutils literal notranslate"><span class="pre">param_spec</span></code>, and then the parameter search is performed in the hyperparameter search space<code class="docutils literal notranslate"> <span class="pre">hyper_param_spec</span></code>. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyperparameter search final model structure parameters  is sured. The final model will be trained, when the results are better, the model parameters are saved, and it will stop train when the effect on the validation set is not improved after several consecutive epochs (trainer.patience).</p>
-<p>Some logs during training are as follows:</p>
+<p>During training, the model is initialized to the parameters in <code class="docutils literal notranslate"><span class="pre">param_spec</span></code>, and then the parameter search is performed in the hyper-parameter search space<code class="docutils literal notranslate"> <span class="pre">hyper_param_spec</span></code>. Each parameter combination will train a certain number of epochs (trainer.pre_train_epoch). After hyper-parameter search, parameters of the final model  is fixed. And then the final model will be trained again, to achieve a higher performance. The parameters of the final model are saved for further load.</p>
+<p>Parts of logs during training are as follows:</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Hyper</span> <span class="o">&amp;</span> <span class="nx">Training</span> <span class="nx">Search</span> <span class="nx">stage</span>
 <span class="p">...</span>
 <span class="nx">Pretraining</span><span class="o">:</span> <span class="nx">search</span> <span class="nx">parameter</span> <span class="nx">is</span> <span class="nx">layers_list</span><span class="p">,</span> <span class="nx">search</span> <span class="nx">value</span> <span class="nx">is</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
@@ -371,11 +367,11 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Evaluation. According to the model structure and model parameters trained in the previous step, evaluate the performance on <code class="docutils literal notranslate"><span class="pre">data_evaluate</span></code>. The classification model will print the accuracy value and the confusion matrix.</p>
+<li><p>Evaluation. Evaluate the performance of final model on data specified on <code class="docutils literal notranslate"><span class="pre">data_evaluate</span></code>. Classification task model will output the accuracy and the confusion matrix.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Some logs are as follows:</p>
+<p>Parts of logs are as follows:</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Evaluation</span> <span class="nx">stage</span>
 <span class="nx">Restoring</span> <span class="nx">parameters</span> <span class="nx">from</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="o">-</span><span class="mi">206</span>
 <span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
@@ -384,14 +380,14 @@
 <span class="nx">Confusion</span> <span class="nx">matrix</span> <span class="nx">plot</span> <span class="nx">is</span> <span class="s1">&#39;experiments/output_files/mlp_demo/1225_113835/MLP_confusion_matrix.pdf&#39;</span>
 </pre></div>
 </div>
-<p>The resulting confusion matrix is shown below. The size of the figure will be adjusted according to the number of categories. The x-axis is true value and the y-axis is the predicted value.</p>
+<p>The  confusion matrix is shown below. Size of the figure will adjust to the number of categories. The x-axis is true label and the y-axis is the predicted label.</p>
 <p><img alt="../_images/mlp_confusion_matrix.png" src="../_images/mlp_confusion_matrix.png" /></p>
 </li>
-<li><p class="first">Prediction. According to the model structure and model parameters trained in step 3, for a given features data, the classification model predicts its category and the softmax value of each category, and will be saved as csv file.</p>
+<li><p>Prediction. Given input sample data, predict categories based on the final model trained in step 3. The category and softmax value of each sample will be saved in a csv file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Some logs are as follows:</p>
+<p>Part of logs are as follows:</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">In</span> <span class="nx">Prediction</span> <span class="nx">stage</span> 
 <span class="nx">Restoring</span> <span class="nx">parameters</span> <span class="nx">from</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="o">-</span><span class="mi">206</span>
 <span class="nx">Running</span> <span class="nx">local_init_op</span><span class="p">.</span>
@@ -400,13 +396,13 @@
 <span class="nx">Predicted</span> <span class="nx">values</span> <span class="nx">file</span> <span class="nx">is</span> <span class="s2">&quot;experiments/output_files/mlp_demo/1225_113835/MLP_predicted_result_data_frame.csv&quot;</span>
 </pre></div>
 </div>
-<p>As shown in the log, the predicted target file will be produced. The first column of the file is <code class="docutils literal notranslate"><span class="pre">predicted_result</span></code>, and the second column of <code class="docutils literal notranslate"><span class="pre">softmax_value</span></code> is the softmax value of each category.</p>
+<p>As shown in the log, the predicted csv file will be produced and saved. The first column of the file is <code class="docutils literal notranslate"><span class="pre">predicted_result</span></code>, and the second column of <code class="docutils literal notranslate"><span class="pre">softmax_value</span></code> is the softmax value of each sample.</p>
 </li>
-<li><p class="first">Explanation. Sort the importance of the variables according to the model trained in step 3. The file corresponding to the variable name needs to be specified in the <code class="docutils literal notranslate"><span class="pre">explainer</span></code>.</p>
+<li><p>Explanation. Rank the importance of the features according to the final model trained in step 3 . The file corresponding to the variable name needs to be specified in the <code class="docutils literal notranslate"><span class="pre">explainer</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">explain</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Sort the importance of the model variables, and the log is as follows:</p>
+<p>Rank the importance of the model variables, and the log is as follows:</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">----------</span><span class="nx">Initialize</span> <span class="nx">Shap</span> <span class="kr">class</span>
 <span class="nx">Restoring</span> <span class="nx">parameters</span> <span class="nx">from</span> <span class="nx">experiments</span><span class="o">/</span><span class="nx">models</span><span class="o">/</span><span class="nx">mlp_demo</span><span class="o">/</span><span class="mi">1225</span><span class="nx">_113835</span><span class="o">/</span><span class="nx">hyper_lr0</span><span class="mf">.08500150000000001</span><span class="nx">_layers_list_</span><span class="p">(</span><span class="mi">128128</span><span class="p">)</span><span class="nx">_keep_prob_0</span><span class="mf">.8</span><span class="nx">_output_nonlinear_None</span><span class="o">/</span><span class="nx">best_model</span><span class="p">.</span><span class="nx">ckpt</span><span class="o">-</span><span class="mi">206</span>
 <span class="o">----------</span><span class="nx">Computing</span> <span class="nx">shap_values</span> <span class="kd">with</span> <span class="mi">80</span>  <span class="nx">examples</span> <span class="nx">and</span> <span class="mi">23361</span> <span class="nx">features</span>
@@ -444,7 +440,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Example_of_ResNet.html" class="btn btn-neutral float-right" title="Example of ResNet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Example_of_RFCN-ResNet.html" class="btn btn-neutral float-right" title="Example of RFCN-ResNet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="Instructions_of_Config.html" class="btn btn-neutral float-left" title="Introduction of config.json" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

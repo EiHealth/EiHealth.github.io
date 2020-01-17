@@ -14,9 +14,9 @@ Welcome to autogenome's documentation!
    md_files/Quick_start.md
    md_files/Instructions_of_Config.md
    md_files/Example_of_MLP.md
-   md_files/Example_of_ResNet.md
-   md_files/Example_of_DenseNet.md
-   md_files/Example_of_ENAS.md
+   md_files/Example_of_RFCN-ResNet.md
+   md_files/Example_of_RFCN-DenseNet.md
+   md_files/Example_of_RRFCN.md
    md_files/Example_of_Res-VAE.md
    md_files/TODO.md
    md_files/SUPPORT.md

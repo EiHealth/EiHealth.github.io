@@ -86,14 +86,14 @@
 <li class="toctree-l1"><a class="reference internal" href="Introduction_of_AutoGenome.html">AutoGenome-Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick-start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-by-step">Step by step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-by-step-running">Step by step Running</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Instructions_of_Config.html">Introduction of config.json</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example_of_MLP.html">Example of MLP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example_of_ResNet.html">Example of ResNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example_of_DenseNet.html">Example of DenseNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example_of_ENAS.html">Example of ENAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RFCN-ResNet.html">Example of RFCN-ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RFCN-DenseNet.html">Example of RFCN-DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RRFCN.html">Example of RRFCN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example_of_Res-VAE.html">Example of  Res-VAE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
@@ -171,14 +171,15 @@
 conda env create -f env.yml
 conda activate autogenome
 
-<span class="c1">#get and install autogenome package</span>
-wget <span class="s2">&quot;http://*****&quot;</span>
+<span class="c1">#get example data and install autogenome package</span>
+wget  https://github.com/EiHealth/EiHealth.github.io/blob/master/data/little_exp.tsv --no-check-certificate 
+wget  https://github.com/EiHealth/EiHealth.github.io/blob/master/data/little_learning_target.tsv --no-check-certificate 
 pip install autogenome*.whl
 </pre></div>
 </div>
 </div>
-<div class="section" id="step-by-step">
-<h2>Step by step<a class="headerlink" href="#step-by-step" title="永久链接至标题">¶</a></h2>
+<div class="section" id="step-by-step-running">
+<h2>Step by step Running<a class="headerlink" href="#step-by-step-running" title="永久链接至标题">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">autogenome</span> <span class="k">as</span> <span class="nn">ag</span>
 
 <span class="c1"># create automl instance from a default config file</span>

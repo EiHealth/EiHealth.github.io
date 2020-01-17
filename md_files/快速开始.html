@@ -87,14 +87,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">快速开始</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">安装</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">使用</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">简单案例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4"></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Config文件配置详解.html">Config文件配置详解</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MLP案例.html">MLP案例</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ResNet案例.html">ResNet案例</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DenseNet案例.html">DenseNet案例</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ENAS案例.html">ENAS案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RFCN-ResNet案例.html">RFCN-ResNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RFCN-DenseNet案例.html">RFCN-DenseNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RRFCN案例.html">RRFCN（ENAS的变体）案例</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Res-VAE案例.html">Res-VAE案例</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
@@ -172,8 +172,9 @@
 conda env create -f env.yml
 conda activate autogenome
 
-<span class="c1">#get and install autogenome package</span>
-wget <span class="s2">&quot;http://*****&quot;</span>
+<span class="c1">#get test data and install autogenome package</span>
+wget https://github.com/EiHealth/EiHealth.github.io/blob/master/data/little_exp.tsv --no-check-certificate
+wget https://github.com/EiHealth/EiHealth.github.io/blob/master/data/little_learning_target.tsv --no-check-certificate
 pip install autogenome*.whl
 </pre></div>
 </div>
@@ -203,7 +204,7 @@ pip install autogenome*.whl
 </div>
 </div>
 <div class="section" id="id4">
-<h2>简单案例<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<h2><a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
 </div>
 </div>
 

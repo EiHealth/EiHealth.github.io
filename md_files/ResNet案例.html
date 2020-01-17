@@ -166,8 +166,8 @@
   <div class="section" id="resnet">
 <h1>ResNet案例<a class="headerlink" href="#resnet" title="永久链接至标题">¶</a></h1>
 <ul class="simple">
-<li><a class="reference external" href="##%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">配置文件</a></li>
-<li><a class="reference external" href="##%E4%BD%BF%E7%94%A8">使用</a></li>
+<li><p><a class="reference external" href="##%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">配置文件</a></p></li>
+<li><p><a class="reference external" href="##%E4%BD%BF%E7%94%A8">使用</a></p></li>
 </ul>
 <p>ResNet案例以一个二分类任务为例，<code class="docutils literal notranslate"><span class="pre">features</span></code>数据<code class="docutils literal notranslate"><span class="pre">little_exp.tsv</span></code>包含100个samples，23361个features。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; wc little_exp.tsv <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span>  <span class="c1"># 打印行数</span>
@@ -305,12 +305,12 @@
 <h2>使用<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
 <p>AutoGenome的使用主要包含以下几步：</p>
 <ol>
-<li><p class="first">导入autogenome包</p>
+<li><p>导入autogenome包</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">autogenome</span> <span class="k">as</span> <span class="nn">ag</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">读取配置文件，配置文件如上述所示</p>
+<li><p>读取配置文件，配置文件如上述所示</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span> <span class="o">=</span> <span class="n">ag</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;/data_autogenome/data_test/json_hub_simple/resnet_test.json&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -332,7 +332,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">训练模型。根据配置文件中训练参数进行模型训练，将数据集划分为训练集:验证集为8:2，使用训练集数据进行训练，同时在验证集数据上进行评估，保存在验证集数据上评价指标（trainer.monitor: “accuracy”）更好的模型和参数到相应文件夹（trainer.saver: “./experiments”）中的<code class="docutils literal notranslate"><span class="pre">models</span></code>文件夹中</p>
+<li><p>训练模型。根据配置文件中训练参数进行模型训练，将数据集划分为训练集:验证集为8:2，使用训练集数据进行训练，同时在验证集数据上进行评估，保存在验证集数据上评价指标（trainer.monitor: “accuracy”）更好的模型和参数到相应文件夹（trainer.saver: “./experiments”）中的<code class="docutils literal notranslate"><span class="pre">models</span></code>文件夹中</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -361,7 +361,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">评估模型。根据上步所训练的模型结构及模型参数，评估在<code class="docutils literal notranslate"><span class="pre">data_evaluate</span></code>上表现，分类模型输出<code class="docutils literal notranslate"><span class="pre">accuracy</span></code>值和<code class="docutils literal notranslate"><span class="pre">confusion</span> <span class="pre">matrix</span></code></p>
+<li><p>评估模型。根据上步所训练的模型结构及模型参数，评估在<code class="docutils literal notranslate"><span class="pre">data_evaluate</span></code>上表现，分类模型输出<code class="docutils literal notranslate"><span class="pre">accuracy</span></code>值和<code class="docutils literal notranslate"><span class="pre">confusion</span> <span class="pre">matrix</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -383,7 +383,7 @@
 <p>得到的confusion matrix图如下所示，图数字大小会根据类别数多少进行调整，x轴为真值，y轴为预测值：</p>
 <p><img alt="../_images/resnet_confusion_matrix.png" src="../_images/resnet_confusion_matrix.png" /></p>
 </li>
-<li><p class="first">预测数据。根据第3步所训练的模型结构及模型参数，对于给定features数据，分类问题预测其类别及各个类别的softmax值，并输出到对应的csv文件中</p>
+<li><p>预测数据。根据第3步所训练的模型结构及模型参数，对于给定features数据，分类问题预测其类别及各个类别的softmax值，并输出到对应的csv文件中</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -400,7 +400,7 @@
 </div>
 <p>如日志所示，将输出预测的target文件，文件第一列<code class="docutils literal notranslate"><span class="pre">predicted_result</span></code>，第二列<code class="docutils literal notranslate"><span class="pre">softmax_value</span></code>为各个类别的softmax值。</p>
 </li>
-<li><p class="first">变量重要性排序。根据第3步所训练的模型结构及模型参数，对变量重要性进行排序，输出各个类别变量重要性，<code class="docutils literal notranslate"><span class="pre">explainer</span></code>中需要指定变量名对应的文件。</p>
+<li><p>变量重要性排序。根据第3步所训练的模型结构及模型参数，对变量重要性进行排序，输出各个类别变量重要性，<code class="docutils literal notranslate"><span class="pre">explainer</span></code>中需要指定变量名对应的文件。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span><span class="o">.</span><span class="n">explain</span><span class="p">()</span>
 </pre></div>
 </div>
