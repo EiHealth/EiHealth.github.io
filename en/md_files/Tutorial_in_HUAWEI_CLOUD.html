@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-CN" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>A Tutorial of Using AutoGenome from HUAWEI CLOUD &mdash; autogenome 1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Example of MLP" href="Example_of_MLP.html" />
+    <link rel="prev" title="Introduction of config.json" href="Instructions_of_Config.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> autogenome
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction_of_AutoGenome.html">AutoGenome-Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quick_start.html">Quick-start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Instructions_of_Config.html">Introduction of config.json</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">A Tutorial of Using AutoGenome from HUAWEI CLOUD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#use-autogenome-from-huawei-cloud-modelarts">Use AutoGenome from HUAWEI CLOUD ModelArts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-log-in">Step 1: Log in</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-access-to-the-modelarts-development">Step 2: Access to the ModelArts Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-specify-the-notebook-environment">Step 3: Specify the notebook environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-open-the-notebook-environment">Step 4: Open the notebook environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-step-by-step-autogenome-tutorials-for-ai-modeling">Step 5: Step-by-step AutoGenome tutorials for AI modeling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-6-upload-and-play-with-your-own-data">Step 6: Upload and play with your own data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#use-autogenome-from-eihealth-platform">Use AutoGenome from EIHealth Platform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Step 1: Log in</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-create-the-notebook-development">Step 2: Create the notebook development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-open-the-notebook-examples">Step 3: Open the Notebook Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-step-by-step-autogenome-tutorials-for-ai-modeling">Step 4: Step-by-step AutoGenome tutorials for AI modeling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-upload-and-play-with-your-own-data">Step 5: Upload and play with your own data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_MLP.html">Example of MLP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RFCN-ResNet.html">Example of RFCN-ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RFCN-DenseNet.html">Example of RFCN-DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_RRFCN.html">Example of RRFCN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example_of_Res-VAE.html">Example of  Res-VAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix.html">Appendix</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">autogenome</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>A Tutorial of Using AutoGenome from HUAWEI CLOUD</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_files/Tutorial_in_HUAWEI_CLOUD.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="a-tutorial-of-using-autogenome-from-huawei-cloud">
+<h1>A Tutorial of Using AutoGenome from HUAWEI CLOUD<a class="headerlink" href="#a-tutorial-of-using-autogenome-from-huawei-cloud" title="永久链接至标题">¶</a></h1>
+<p>AutoGenome is freely available from HUAWEI CLOUD EIHealth and ModelArts Platform. This is a tutorial of running AutoGenome from HUAWEI CLOUD ModelArts and EIHealth Platform.</p>
+<div class="section" id="use-autogenome-from-huawei-cloud-modelarts">
+<h2>Use AutoGenome from HUAWEI CLOUD ModelArts<a class="headerlink" href="#use-autogenome-from-huawei-cloud-modelarts" title="永久链接至标题">¶</a></h2>
+<p>AutoGenome is now freely available to public users from HUAWEI Cloud ModelArts AI platform. Registered users could use the free notebook services to test AutoGenome (The one hour free GPU quota is sufficient for most genome AutoML tasks).</p>
+<p>Here is a short tutorial of how to launch AutoGenome from the free notebook services on ModelArts.</p>
+<div class="section" id="step-1-log-in">
+<h3>Step 1: Log in<a class="headerlink" href="#step-1-log-in" title="永久链接至标题">¶</a></h3>
+<p>Access <a class="reference external" href="https://console.huaweicloud.com/modelarts/?region=cn-north-4&amp;locale=en-us#/dashboard">HUAWEI CLOUD ModelArts</a> and enter your username and password. And Click “<strong>Log In</strong>”. Please register an account if you don’t have one.</p>
+<p><img alt="../_images/tutorial_0.png" src="../_images/tutorial_0.png" /></p>
+</div>
+<div class="section" id="step-2-access-to-the-modelarts-development">
+<h3>Step 2: Access to the ModelArts Development<a class="headerlink" href="#step-2-access-to-the-modelarts-development" title="永久链接至标题">¶</a></h3>
+<p>Click the “<strong>DevEnviron</strong>” and then click the “<strong>Create</strong>” button on the top of the page to create a new notebook environment.</p>
+<p><img alt="../_images/tutorial_1.png" src="../_images/tutorial_1.png" /></p>
+</div>
+<div class="section" id="step-3-specify-the-notebook-environment">
+<h3>Step 3: Specify the notebook environment<a class="headerlink" href="#step-3-specify-the-notebook-environment" title="永久链接至标题">¶</a></h3>
+<p>In the new page, specify the name of environment, chose “Python2” for “Work Environment”, chose “GPU” for “Type”, chose “[Limited-time free] GPU:1*p100 CPU” for “Instance Flavor”, then click “<strong>Next</strong>”.</p>
+<p><img alt="../_images/tutorial_2.png" src="../_images/tutorial_2.png" /></p>
+<p>Click “<strong>Submit</strong>” on the subsequent page, it may take several minutes for the environment to start.</p>
+<p><img alt="../_images/tutorial_3.png" src="../_images/tutorial_3.png" /></p>
+<p>Click “Back to Notebook List”.</p>
+<p><img alt="../_images/tutorial_4.png" src="../_images/tutorial_4.png" /></p>
+</div>
+<div class="section" id="step-4-open-the-notebook-environment">
+<h3>Step 4: Open the notebook environment<a class="headerlink" href="#step-4-open-the-notebook-environment" title="永久链接至标题">¶</a></h3>
+<p>It may take a few seconds for the notebook environment to start.</p>
+<p><img alt="../_images/tutorial_5.png" src="../_images/tutorial_5.png" /></p>
+<p>Once the status turn into “<strong>Running</strong>”, please click the “<strong>Open</strong>” button to open this notebook.</p>
+<p><img alt="../_images/tutorial_6.png" src="../_images/tutorial_6.png" /></p>
+<p>Click on “Open JupyterLab”, the page will then jump to JupyterLab.</p>
+<p><img alt="../_images/tutorial_7.png" src="../_images/tutorial_7.png" /></p>
+</div>
+<div class="section" id="step-5-step-by-step-autogenome-tutorials-for-ai-modeling">
+<h3>Step 5: Step-by-step AutoGenome tutorials for AI modeling<a class="headerlink" href="#step-5-step-by-step-autogenome-tutorials-for-ai-modeling" title="永久链接至标题">¶</a></h3>
+<p>In JupyterLab, click on any AutoGenome notebook examples from “<strong>ModeArts Examples</strong>”, then click on “<strong>Create a copy</strong>”, you can then run the step-by-step notebook tutorials.</p>
+<p><img alt="../_images/tutorial_8.png" src="../_images/tutorial_8.png" /></p>
+</div>
+<div class="section" id="step-6-upload-and-play-with-your-own-data">
+<h3>Step 6: Upload and play with your own data<a class="headerlink" href="#step-6-upload-and-play-with-your-own-data" title="永久链接至标题">¶</a></h3>
+<p>Use JupiterLab, Click on “File Browser” sidebar, then Click “Upload” icon to upload your own data, for data larger than 100 Mb, you will need to use OBS (https://support.huaweicloud.com/engineers-modelarts/modelarts_23_0105.html )</p>
+<p><img alt="../_images/tutorial_9.png" src="../_images/tutorial_9.png" /></p>
+</div>
+</div>
+<div class="section" id="use-autogenome-from-eihealth-platform">
+<h2>Use AutoGenome from EIHealth Platform<a class="headerlink" href="#use-autogenome-from-eihealth-platform" title="永久链接至标题">¶</a></h2>
+<p>HUAWEI EIHealth is the healthcare AI platform for genomic research, clinical research and drug discovery. This is a short tutorial of how to use AutoGenome from EIHealth.</p>
+<div class="section" id="id1">
+<h3>Step 1: Log in<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<p>Access <a class="reference external" href="https://eihealth.ai/">EIHealth</a> (This is a demo site, if your company or institute purchased EIHealth, it will be from a different URL) and enter the registered username and password, then Click “<strong>Log In</strong>”, you can also switch to Chinese language.</p>
+<p><img alt="../_images/tutorial_10.png" src="../_images/tutorial_10.png" /></p>
+</div>
+<div class="section" id="step-2-create-the-notebook-development">
+<h3>Step 2: Create the notebook development<a class="headerlink" href="#step-2-create-the-notebook-development" title="永久链接至标题">¶</a></h3>
+<p>Click “<strong>Development</strong>” – “<strong>Codeset</strong>” – “<strong>AutoGenome-Examples</strong>” – “<strong>Create Notebook</strong>” and enter into the Notebook page.</p>
+<p><img alt="../_images/tutorial_11.png" src="../_images/tutorial_11.png" /></p>
+<p>And then specify the parameters of the notebook and click “<strong>Create</strong>”.</p>
+<p><img alt="../_images/tutorial_12.png" src="../_images/tutorial_12.png" /></p>
+<p>A seconds later, the notebook will be created successfully and then Click “<strong>Open</strong>” to start the notebook development.</p>
+<p><img alt="../_images/tutorial_13.png" src="../_images/tutorial_13.png" /></p>
+</div>
+<div class="section" id="step-3-open-the-notebook-examples">
+<h3>Step 3: Open the Notebook Examples<a class="headerlink" href="#step-3-open-the-notebook-examples" title="永久链接至标题">¶</a></h3>
+<p>Choose “AutoGenome_Example”.</p>
+<p><img alt="../_images/tutorial_14.png" src="../_images/tutorial_14.png" /></p>
+<p>The directory contains several examples, click on one folder.</p>
+<p><img alt="../_images/tutorial_15.png" src="../_images/tutorial_15.png" /></p>
+<p>Click one of the ipynb file and this action will open a notebook example of AutoGenome.</p>
+<p><img alt="../_images/tutorial_16.png" src="../_images/tutorial_16.png" /></p>
+</div>
+<div class="section" id="step-4-step-by-step-autogenome-tutorials-for-ai-modeling">
+<h3>Step 4: Step-by-step AutoGenome tutorials for AI modeling<a class="headerlink" href="#step-4-step-by-step-autogenome-tutorials-for-ai-modeling" title="永久链接至标题">¶</a></h3>
+<p>The notebook contains all codes to show how to use AutoGenome step by step for supervised learning and un-supervised learning. The users can also run this notebook to reproduce the results of our manuscript.</p>
+<p><img alt="../_images/tutorial_17.png" src="../_images/tutorial_17.png" /></p>
+</div>
+<div class="section" id="step-5-upload-and-play-with-your-own-data">
+<h3>Step 5: Upload and play with your own data<a class="headerlink" href="#step-5-upload-and-play-with-your-own-data" title="永久链接至标题">¶</a></h3>
+<p>Go to the working directory, click upload button</p>
+<p><img alt="../_images/tutorial_18.png" src="../_images/tutorial_18.png" /></p>
+<p>Selected your own data and click Upload button, you can then play with your own data from the notebook.</p>
+<p><img alt="../_images/tutorial_19.png" src="../_images/tutorial_19.png" /></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Example_of_MLP.html" class="btn btn-neutral float-right" title="Example of MLP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Instructions_of_Config.html" class="btn btn-neutral float-left" title="Introduction of config.json" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Huawei
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
