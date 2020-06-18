@@ -25,6 +25,8 @@ MLP案例以一个二分类任务为例，`features`数据`little_exp.tsv`包含
 
 
 
+## 配置文件
+
 首先，准备配置文件，具体如下所示：
 
 ```javascript

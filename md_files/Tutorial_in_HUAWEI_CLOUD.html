@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-CN" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AutoGenome在华为云上使用教程 &mdash; autogenome 1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="MLP案例" href="MLP案例.html" />
+    <link rel="prev" title="Config文件配置详解" href="Config文件配置详解.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> autogenome
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AutoGenome介绍.html">AutoGenome介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="快速开始.html">快速开始</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Config文件配置详解.html">Config文件配置详解</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AutoGenome在华为云上使用教程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modelartsautogenome">在ModelArts平台使用AutoGenome</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1">Step 1: 登录</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-modelarts">Step 2: 进入ModelArts开发环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-notebook">Step 3: 选择NoteBook的规格</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-notebook">Step 4: 启动NoteBook环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-autogenomeai">Step 5:  使用AutoGenome端到端进行AI建模</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-6-autogenome">Step 6: 上传自己的数据体验AutoGenome</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">在医疗智能体平台使用AutoGenome</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Step 1: 登录</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-notebook">Step 2: 创建Notebook开发环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-notebookautogenome">Step 3: 打开Notebook中AutoGenome案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-autogenomeai">Step 4: 使用AutoGenome端到端进行AI建模</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-autogenome">Step 5: 上传自己的数据体验AutoGenome</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MLP案例.html">MLP案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RFCN-ResNet案例.html">RFCN-ResNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RFCN-DenseNet案例.html">RFCN-DenseNet案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RRFCN案例.html">RRFCN（ENAS的变体）案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Res-VAE案例.html">Res-VAE案例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SUPPORT.html">SUPPORT INFORMATION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="常见问题.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="附录.html">附录</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">autogenome</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>AutoGenome在华为云上使用教程</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_files/Tutorial_in_HUAWEI_CLOUD.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="autogenome">
+<h1>AutoGenome在华为云上使用教程<a class="headerlink" href="#autogenome" title="永久链接至标题">¶</a></h1>
+<p>AutoGenome已经部署医疗智能体平台和华为云ModelArts平台，并可以公开访问。这份教程将端到端演示如何在这两个平台上使用AutoGenome。</p>
+<div class="section" id="modelartsautogenome">
+<h2>在ModelArts平台使用AutoGenome<a class="headerlink" href="#modelartsautogenome" title="永久链接至标题">¶</a></h2>
+<p>目前AutoGenome在华为云ModelArts平台上可以公开访问。华为云注册用户可以使用免费的NoteBook服务来体验AutoGenome.(免费NoteBook提供1小时GPU使用时长，可以满足大部分基因组自动建模的任务。)</p>
+<p>下面展示在ModelArts平台使用免费NoteBook服务完成AutoGenome的端到端训练和推理过程。</p>
+<div class="section" id="step-1">
+<h3>Step 1: 登录<a class="headerlink" href="#step-1" title="永久链接至标题">¶</a></h3>
+<p>进入华为云 <a class="reference external" href="https://console.huaweicloud.com/modelarts/?region=cn-north-4&amp;locale=en-us#/dashboard">ModelArts</a> 平台登录界面，输入用户名和密码，点击  “<strong>登录</strong>”。如果没有ModelArts平台账号，请先注册。</p>
+<p><img alt="../_images/tutorial_0.png" src="../_images/tutorial_0.png" /></p>
+</div>
+<div class="section" id="step-2-modelarts">
+<h3>Step 2: 进入ModelArts开发环境<a class="headerlink" href="#step-2-modelarts" title="永久链接至标题">¶</a></h3>
+<p>点击“<strong>开发环境</strong>”下拉窗口，在页面的顶部点击 “<strong>创建</strong>” 按钮创建一个新的NoteBook环境。</p>
+<p><img alt="../_images/tutorial_1.png" src="../_images/tutorial_1.png" /></p>
+</div>
+<div class="section" id="step-3-notebook">
+<h3>Step 3: 选择NoteBook的规格<a class="headerlink" href="#step-3-notebook" title="永久链接至标题">¶</a></h3>
+<p>在新的页面，填写NoteBook的名字，选择“Python2”，“GPU”；在“规格”选择“[Limited-time free] GPU:1*p100 CPU”， 然后点击“下一步”。</p>
+<p><img alt="../_images/tutorial_2.png" src="../_images/tutorial_2.png" /></p>
+<p>在接下来的页面中点击“提交”，创建NoteBook环境的过程。</p>
+<p><img alt="../_images/tutorial_3.png" src="../_images/tutorial_3.png" /></p>
+<p>.点击“返回Notebook列表”.</p>
+<p><img alt="../_images/tutorial_4.png" src="../_images/tutorial_4.png" /></p>
+</div>
+<div class="section" id="step-4-notebook">
+<h3>Step 4: 启动NoteBook环境<a class="headerlink" href="#step-4-notebook" title="永久链接至标题">¶</a></h3>
+<p>一般需要花费几秒钟的时间启动NoteBook环境。</p>
+<p><img alt="../_images/tutorial_5.png" src="../_images/tutorial_5.png" /></p>
+<p>当Notebook状态为 “<strong>运行中</strong>”， 可以点击“<strong>打开</strong>”按钮启动Notebook服务。</p>
+<p><img alt="../_images/tutorial_6.png" src="../_images/tutorial_6.png" /></p>
+<p>点击“Open JupyterLab”，将跳转到JupyterLab页面。</p>
+<p><img alt="../_images/tutorial_7.png" src="../_images/tutorial_7.png" /></p>
+</div>
+<div class="section" id="step-5-autogenomeai">
+<h3>Step 5:  使用AutoGenome端到端进行AI建模<a class="headerlink" href="#step-5-autogenomeai" title="永久链接至标题">¶</a></h3>
+<p>在JupyterLab, 在“<strong>ModeArts Examples</strong>”中选择AutoGenome notebook例子，点击“<strong>Create a copy</strong>”，就能端到端运行AutoGenome的例子。</p>
+<p><img alt="../_images/tutorial_8.png" src="../_images/tutorial_8.png" /></p>
+</div>
+<div class="section" id="step-6-autogenome">
+<h3>Step 6: 上传自己的数据体验AutoGenome<a class="headerlink" href="#step-6-autogenome" title="永久链接至标题">¶</a></h3>
+<p>使用JupyterLab，点击 “File Browser”菜单栏，使用“Upload”按钮上传自己的数据。如果数据大于100Mb,建议使用OBS上传 (https://support.huaweicloud.com/engineers-modelarts/modelarts_23_0105.html )。</p>
+<p><img alt="../_images/tutorial_9.png" src="../_images/tutorial_9.png" /></p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>在医疗智能体平台使用AutoGenome<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>华为医疗智能体是集基因组学探索、临床研究和药物发现等领域于一身的AI平台。下面展示在医疗智能体平台体验AutoGenome的端到端流程。</p>
+<div class="section" id="id2">
+<h3>Step 1: 登录<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>进入<a class="reference external" href="https://eihealth.ai/">医疗智能体</a>登录界面（这是一个演示网站，如果您所在公司或者组织购买了医疗智能体平台服务，将会是不同的网址），输入账户和密码后点击“<strong>确认</strong>”。</p>
+<p><img alt="../_images/tutorial_10.png" src="../_images/tutorial_10.png" /></p>
+</div>
+<div class="section" id="step-2-notebook">
+<h3>Step 2: 创建Notebook开发环境<a class="headerlink" href="#step-2-notebook" title="永久链接至标题">¶</a></h3>
+<p>点击“<strong>开发环境</strong>” – “<strong>代码集</strong>” – “<strong>AutoGenome-Examples</strong>” – “<strong>创建实例</strong>” 进入到Notebook页面。</p>
+<p><img alt="../_images/tutorial_11.png" src="../_images/tutorial_11.png" /></p>
+<p>填写创建Notebook所需的参数，点击 “<strong>立即创建</strong>”</p>
+<p><img alt="../_images/tutorial_12.png" src="../_images/tutorial_12.png" /></p>
+<p>Notebook服务创建成功后，点击“<strong>打开</strong>” 进入Notebook页面。</p>
+<p><img alt="../_images/tutorial_13.png" src="../_images/tutorial_13.png" /></p>
+</div>
+<div class="section" id="step-3-notebookautogenome">
+<h3>Step 3: 打开Notebook中AutoGenome案例<a class="headerlink" href="#step-3-notebookautogenome" title="永久链接至标题">¶</a></h3>
+<p>选择“AutoGenome_Example”。</p>
+<p><img alt="../_images/tutorial_14.png" src="../_images/tutorial_14.png" /></p>
+<p>文件夹将包含若干个例子，选择并进入其中一个文件夹</p>
+<p><img alt="../_images/tutorial_15.png" src="../_images/tutorial_15.png" /></p>
+<p>点击其中一个ipynb文件将打开AutoGenome的案例Notebook。</p>
+<p><img alt="../_images/tutorial_16.png" src="../_images/tutorial_16.png" /></p>
+</div>
+<div class="section" id="step-4-autogenomeai">
+<h3>Step 4: 使用AutoGenome端到端进行AI建模<a class="headerlink" href="#step-4-autogenomeai" title="永久链接至标题">¶</a></h3>
+<p>Notebook将包含端到端使用AutoGenome的代码，案例覆盖了监督学习和非监督学习。使用者可以使用Notebook案例复现AutoGenome文章的结果。</p>
+<p><img alt="../_images/tutorial_17.png" src="../_images/tutorial_17.png" /></p>
+</div>
+<div class="section" id="step-5-autogenome">
+<h3>Step 5: 上传自己的数据体验AutoGenome<a class="headerlink" href="#step-5-autogenome" title="永久链接至标题">¶</a></h3>
+<p>在工作目录中，点击“<strong>Upload</strong>”按钮。</p>
+<p><img alt="../_images/tutorial_18.png" src="../_images/tutorial_18.png" /></p>
+<p>选择自己的文件后，点击“<strong>Upload</strong>”上传指定的文件，并且根据Notebook案例用自己的数据体验AutoGenome</p>
+<p><img alt="../_images/tutorial_19.png" src="../_images/tutorial_19.png" /></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="MLP案例.html" class="btn btn-neutral float-right" title="MLP案例" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Config文件配置详解.html" class="btn btn-neutral float-left" title="Config文件配置详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Huawei
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
